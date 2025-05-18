@@ -3,7 +3,7 @@ import fastifyJwt from '@fastify/jwt';
 import { config } from 'dotenv';
 import 'dotenv/config';
 import fastify, { FastifyInstance } from 'fastify';
-import { Routes } from './routes/@routes';
+import { Routes } from './src/routes/@routes';
 
 
 config();
