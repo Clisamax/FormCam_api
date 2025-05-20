@@ -5783,7 +5783,7 @@ var require_client = __commonJS({
           "value": "prisma-client-js"
         },
         "output": {
-          "value": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/node_modules/@prisma/client",
+          "value": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/node_modules/@prisma/client",
           "fromEnvVar": null
         },
         "config": {
@@ -5797,7 +5797,7 @@ var require_client = __commonJS({
           }
         ],
         "previewFeatures": [],
-        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/prisma/schema.prisma"
+        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/prisma/schema.prisma"
       },
       "relativeEnvPaths": {
         "rootEnvPath": null,

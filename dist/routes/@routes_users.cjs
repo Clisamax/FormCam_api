@@ -13781,7 +13781,7 @@ var require_client = __commonJS({
           "value": "prisma-client-js"
         },
         "output": {
-          "value": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/node_modules/@prisma/client",
+          "value": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/node_modules/@prisma/client",
           "fromEnvVar": null
         },
         "config": {
@@ -13795,7 +13795,7 @@ var require_client = __commonJS({
           }
         ],
         "previewFeatures": [],
-        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/prisma/schema.prisma"
+        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/prisma/schema.prisma"
       },
       "relativeEnvPaths": {
         "rootEnvPath": null,
@@ -13871,12 +13871,14 @@ var require_default2 = __commonJS({
   }
 });
 
-// src/config/server.ts
-var server_exports = {};
-__export(server_exports, {
-  app: () => app
+// src/routes/@routes_users.ts
+var routes_users_exports = {};
+__export(routes_users_exports, {
+  routesUsers: () => routesUsers
 });
-module.exports = __toCommonJS(server_exports);
+module.exports = __toCommonJS(routes_users_exports);
+
+// src/server.ts
 var import_cors = __toESM(require_cors(), 1);
 var import_jwt = __toESM(require_jwt(), 1);
 var import_dotenv = require("dotenv");
@@ -13948,10 +13950,37 @@ var CreateOcorrenciaController = async (app2) => {
 };
 var createOcorrencia_controller_default = CreateOcorrenciaController;
 
-// src/config/routes/@routesOcorrencias.ts
+// src/routes/@routesOcorrencias.ts
 var routesOcorrencias = async () => {
   app.register(createOcorrencia_controller_default);
 };
+
+// src/routes/@routes.ts
+var Routes = async () => {
+  app.register(routesUsers);
+  app.register(routesOcorrencias);
+};
+
+// src/server.ts
+(0, import_dotenv.config)();
+var app = (0, import_fastify.default)({ logger: true });
+var PORT = process.env.PORT;
+app.register(import_cors.default, {
+  origin: true,
+  // permite todas as origens
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true
+});
+app.register(import_jwt.default, {
+  secret: process.env.JWT_SECRET || "default_secret"
+});
+app.register(Routes);
+app.listen({
+  port: typeof PORT === "string" ? Number(PORT) : 3336
+}).then((address) => console.log(`server is listening on port ${address}`)).catch((err) => {
+  console.log("Error starting server:", err);
+  process.exit(1);
+});
 
 // src/shared/utils/hash.ts
 var import_bcrypt = require("bcrypt");
@@ -14260,43 +14289,16 @@ async function updateUser(app2) {
   });
 }
 
-// src/config/routes/@routes_users.ts
+// src/routes/@routes_users.ts
 var routesUsers = async () => {
   app.register(createUser);
   app.register(deleteUser);
   app.register(loginUser);
   app.register(updateUser);
 };
-
-// src/config/routes/routes.ts
-var Routes = async () => {
-  app.register(routesUsers);
-  app.register(routesOcorrencias);
-};
-
-// src/config/server.ts
-(0, import_dotenv.config)();
-var app = (0, import_fastify.default)({ logger: true });
-var PORT = process.env.PORT;
-app.register(import_cors.default, {
-  origin: true,
-  // permite todas as origens
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  credentials: true
-});
-app.register(import_jwt.default, {
-  secret: process.env.JWT_SECRET || "default_secret"
-});
-app.register(Routes);
-app.listen({
-  port: typeof PORT === "string" ? Number(PORT) : 3336
-}).then((address) => console.log(`server is listening on port ${address}`)).catch((err) => {
-  console.log("Error starting server:", err);
-  process.exit(1);
-});
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  app
+  routesUsers
 });
 /*! Bundled license information:
 

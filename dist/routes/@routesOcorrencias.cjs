@@ -13781,7 +13781,7 @@ var require_client = __commonJS({
           "value": "prisma-client-js"
         },
         "output": {
-          "value": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/node_modules/@prisma/client",
+          "value": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/node_modules/@prisma/client",
           "fromEnvVar": null
         },
         "config": {
@@ -13795,7 +13795,7 @@ var require_client = __commonJS({
           }
         ],
         "previewFeatures": [],
-        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/Backend_Auth/Sem Ti\u0301tulo/prisma/schema.prisma"
+        "sourceFilePath": "/Users/clisamaxgomes/Documents/GitHub/maxcam_api/prisma/schema.prisma"
       },
       "relativeEnvPaths": {
         "rootEnvPath": null,
@@ -13871,108 +13871,19 @@ var require_default2 = __commonJS({
   }
 });
 
-// src/config/routes/routes.ts
-var routes_exports = {};
-__export(routes_exports, {
-  Routes: () => Routes
+// src/routes/@routesOcorrencias.ts
+var routesOcorrencias_exports = {};
+__export(routesOcorrencias_exports, {
+  routesOcorrencias: () => routesOcorrencias
 });
-module.exports = __toCommonJS(routes_exports);
+module.exports = __toCommonJS(routesOcorrencias_exports);
 
-// src/config/server.ts
+// src/server.ts
 var import_cors = __toESM(require_cors(), 1);
 var import_jwt = __toESM(require_jwt(), 1);
 var import_dotenv = require("dotenv");
 var import_config = require("dotenv/config");
 var import_fastify = __toESM(require("fastify"), 1);
-(0, import_dotenv.config)();
-var app = (0, import_fastify.default)({ logger: true });
-var PORT = process.env.PORT;
-app.register(import_cors.default, {
-  origin: true,
-  // permite todas as origens
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  credentials: true
-});
-app.register(import_jwt.default, {
-  secret: process.env.JWT_SECRET || "default_secret"
-});
-app.register(Routes);
-app.listen({
-  port: typeof PORT === "string" ? Number(PORT) : 3336
-}).then((address) => console.log(`server is listening on port ${address}`)).catch((err) => {
-  console.log("Error starting server:", err);
-  process.exit(1);
-});
-
-// src/shared/lib/client.ts
-var import_client = __toESM(require_default2(), 1);
-var prisma = new import_client.PrismaClient();
-
-// src/modules/ocorrencia/repositories/ocorrencia.repository.ts
-var OcorrenciaRepository = class {
-  async create(data) {
-    const result = await prisma.ocorrencia.create({
-      data: {
-        uuid: data.uuid,
-        origem: data.origem,
-        processo: data.processo,
-        procedimento: data.procedimento,
-        responsavel: data.responsavel,
-        ocorrencia: data.ocorrencia,
-        anotacao: data.anotacao
-      }
-    });
-    return result;
-  }
-};
-
-// src/modules/ocorrencia/useCases/ocorrencia.usecase.ts
-var OcorrenciaUseCase = class {
-  OcorrenciaDto;
-  constructor() {
-    this.OcorrenciaDto = new OcorrenciaRepository();
-  }
-  async createOcorrencia(data) {
-    try {
-      const ocorrencia = await this.OcorrenciaDto.create(data);
-      return ocorrencia;
-    } catch (error) {
-      console.error("Erro ao criar ocorr\xEAncia:", error);
-      throw error;
-    }
-  }
-};
-var ocorrencia_usecase_default = OcorrenciaUseCase;
-
-// src/controllers/ocorrencia/createOcorrencia.controller.ts
-var CreateOcorrenciaController = async (app2) => {
-  app2.post("/create_ocorrencia", async (req, reply) => {
-    try {
-      const ocorrenciaUseCase = new ocorrencia_usecase_default();
-      const result = await ocorrenciaUseCase.createOcorrencia({ anotacao: req.body.anotacao, origem: req.body.origem, processo: req.body.processo, procedimento: req.body.procedimento, responsavel: req.body.responsavel, ocorrencia: req.body.ocorrencia, uuid: req.body.uuid });
-      reply.status(201).send(result);
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === "Este usu\xE1rio j\xE1 existe") {
-          return reply.status(409).send({
-            message: error.message
-          });
-        }
-        return reply.status(400).send({
-          message: error.message
-        });
-      }
-      console.error("Erro ao criar ocorr\xEAncia:", error);
-      reply.status(500).send({ error: "Erro ao criar ocorr\xEAncia" });
-    }
-  });
-};
-var createOcorrencia_controller_default = CreateOcorrenciaController;
-
-// src/config/routes/@routesOcorrencias.ts
-var routesOcorrencias = async () => {
-  app.register(createOcorrencia_controller_default);
-};
 
 // src/shared/utils/hash.ts
 var import_bcrypt = require("bcrypt");
@@ -13982,6 +13893,10 @@ async function hashPassword(password) {
 async function verifyPassword(password, hash2) {
   return (0, import_bcrypt.compare)(password, hash2);
 }
+
+// src/shared/lib/client.ts
+var import_client = __toESM(require_default2(), 1);
+var prisma = new import_client.PrismaClient();
 
 // src/modules/users/repositories/user.repository.ts
 var UsersRepository = class {
@@ -14281,7 +14196,7 @@ async function updateUser(app2) {
   });
 }
 
-// src/config/routes/@routes_users.ts
+// src/routes/@routes_users.ts
 var routesUsers = async () => {
   app.register(createUser);
   app.register(deleteUser);
@@ -14289,14 +14204,101 @@ var routesUsers = async () => {
   app.register(updateUser);
 };
 
-// src/config/routes/routes.ts
+// src/routes/@routes.ts
 var Routes = async () => {
   app.register(routesUsers);
   app.register(routesOcorrencias);
 };
+
+// src/server.ts
+(0, import_dotenv.config)();
+var app = (0, import_fastify.default)({ logger: true });
+var PORT = process.env.PORT;
+app.register(import_cors.default, {
+  origin: true,
+  // permite todas as origens
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true
+});
+app.register(import_jwt.default, {
+  secret: process.env.JWT_SECRET || "default_secret"
+});
+app.register(Routes);
+app.listen({
+  port: typeof PORT === "string" ? Number(PORT) : 3336
+}).then((address) => console.log(`server is listening on port ${address}`)).catch((err) => {
+  console.log("Error starting server:", err);
+  process.exit(1);
+});
+
+// src/modules/ocorrencia/repositories/ocorrencia.repository.ts
+var OcorrenciaRepository = class {
+  async create(data) {
+    const result = await prisma.ocorrencia.create({
+      data: {
+        uuid: data.uuid,
+        origem: data.origem,
+        processo: data.processo,
+        procedimento: data.procedimento,
+        responsavel: data.responsavel,
+        ocorrencia: data.ocorrencia,
+        anotacao: data.anotacao
+      }
+    });
+    return result;
+  }
+};
+
+// src/modules/ocorrencia/useCases/ocorrencia.usecase.ts
+var OcorrenciaUseCase = class {
+  OcorrenciaDto;
+  constructor() {
+    this.OcorrenciaDto = new OcorrenciaRepository();
+  }
+  async createOcorrencia(data) {
+    try {
+      const ocorrencia = await this.OcorrenciaDto.create(data);
+      return ocorrencia;
+    } catch (error) {
+      console.error("Erro ao criar ocorr\xEAncia:", error);
+      throw error;
+    }
+  }
+};
+var ocorrencia_usecase_default = OcorrenciaUseCase;
+
+// src/controllers/ocorrencia/createOcorrencia.controller.ts
+var CreateOcorrenciaController = async (app2) => {
+  app2.post("/create_ocorrencia", async (req, reply) => {
+    try {
+      const ocorrenciaUseCase = new ocorrencia_usecase_default();
+      const result = await ocorrenciaUseCase.createOcorrencia({ anotacao: req.body.anotacao, origem: req.body.origem, processo: req.body.processo, procedimento: req.body.procedimento, responsavel: req.body.responsavel, ocorrencia: req.body.ocorrencia, uuid: req.body.uuid });
+      reply.status(201).send(result);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === "Este usu\xE1rio j\xE1 existe") {
+          return reply.status(409).send({
+            message: error.message
+          });
+        }
+        return reply.status(400).send({
+          message: error.message
+        });
+      }
+      console.error("Erro ao criar ocorr\xEAncia:", error);
+      reply.status(500).send({ error: "Erro ao criar ocorr\xEAncia" });
+    }
+  });
+};
+var createOcorrencia_controller_default = CreateOcorrenciaController;
+
+// src/routes/@routesOcorrencias.ts
+var routesOcorrencias = async () => {
+  app.register(createOcorrencia_controller_default);
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  Routes
+  routesOcorrencias
 });
 /*! Bundled license information:
 

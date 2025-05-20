@@ -1,4 +1,4 @@
-import { app } from "../../server"
+import { app } from "../server"
 import { routesOcorrencias } from "./@routesOcorrencias"
 import { routesUsers } from "./@routes_users"
 
