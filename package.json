@@ -5,13 +5,13 @@
 	"license": "MIT",
 	"type": "module",
 	"engines": {
-		"node": "22.14.0"
+		"node": "22.0.0"
 	},
 	"scripts": {
 		"dev": "tsx --watch --env-file=.env server.ts",
 		"start": "node dist/server.cjs",
 		"build": "tsup src",
-		"versel-build": "yarn prisma migrate deploy && yarn build",
+		"vercel-build": "yarn prisma migrate deploy && yarn build",
 		"postinstall": "prisma generate"
 	},
 	"dependencies": {
