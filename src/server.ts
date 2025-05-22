@@ -28,6 +28,7 @@ app.register(fastifyJwt, {
 app.register(Routes)
 
 app.listen({
+	host: '0.0.0.0',
 	port: typeof PORT === 'string' ? Number(PORT) : 3336
 })
 	.then((address) => console.log(`server is listening on port ${address}`))
