@@ -6,7 +6,7 @@ export async function deleteUser(app: FastifyInstance) {
 		try {
 			const { id } = req.body
 			if (!id) {
-				return reply.status(400).send({ messege: 'ID do usuário é obrigatório' })
+				return reply.status(400).send({ message: 'ID do usuário é obrigatório' })
 			}
 			const userUserCase = new UserUserCase()
 

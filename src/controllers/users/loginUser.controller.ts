@@ -28,8 +28,10 @@ export async function loginUser(app: FastifyInstance) {
 					sap: user.sap,
 					name: user.name,
 					userId: user.id,
-					expiresIn: '1h'
 				},
+				{
+					expiresIn: '1h'
+				}
 
 			);
 

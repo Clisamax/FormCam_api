@@ -27,13 +27,20 @@ app.register(fastifyJwt, {
 // Registrar todas as rotas sem prefix
 app.register(Routes)
 
-app.listen({
+const start = async () => {
+	try {
+const address = await app.listen({
 	host: '0.0.0.0',
 	port: typeof PORT === 'string' ? Number(PORT) : 3336
-})
-	.then((address) => console.log(`server is listening on port ${address}`))
-	.catch(err => {
-		console.log('Error starting server:', err)
+});
+console.log(`server is listening on ${address}`);
+	}
+	catch (err) {
+console.log('Error starting server:', err)
 		process.exit(1)
-	})
+	}
+}
 
+start()
+
+export default app
