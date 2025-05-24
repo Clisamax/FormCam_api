@@ -6036,8 +6036,8 @@ var UserUserCase = class {
 };
 
 // src/controllers/users/loginUser.controller.ts
-async function loginUser(app) {
-  app.post("/login", async (req, reply) => {
+async function loginUser(fast) {
+  fast.post("/login", async (req, reply) => {
     try {
       const userUseCase = new UserUserCase();
       const { sap, password } = req.body;
@@ -6052,11 +6052,13 @@ async function loginUser(app) {
           message: "Credenciais inv\xE1lidas"
         });
       }
-      const token = app.jwt.sign(
+      const token = fast.jwt.sign(
         {
           sap: user.sap,
           name: user.name,
-          userId: user.id,
+          userId: user.id
+        },
+        {
           expiresIn: "1h"
         }
       );

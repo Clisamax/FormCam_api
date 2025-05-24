@@ -1070,16 +1070,16 @@ var require_bn = __commonJS({
         }
         assert(base === (base | 0) && base >= 2 && base <= 36);
         number = number.toString().replace(/\s+/g, "");
-        var start = 0;
+        var start2 = 0;
         if (number[0] === "-") {
-          start++;
+          start2++;
           this.negative = 1;
         }
-        if (start < number.length) {
+        if (start2 < number.length) {
           if (base === 16) {
-            this._parseHex(number, start, endian);
+            this._parseHex(number, start2, endian);
           } else {
-            this._parseBase(number, base, start);
+            this._parseBase(number, base, start2);
             if (endian === "le") {
               this._initArray(this.toArray(), base, endian);
             }
@@ -1168,8 +1168,8 @@ var require_bn = __commonJS({
         }
         return r;
       }
-      BN.prototype._parseHex = function _parseHex(number, start, endian) {
-        this.length = Math.ceil((number.length - start) / 6);
+      BN.prototype._parseHex = function _parseHex(number, start2, endian) {
+        this.length = Math.ceil((number.length - start2) / 6);
         this.words = new Array(this.length);
         for (var i = 0; i < this.length; i++) {
           this.words[i] = 0;
@@ -1178,8 +1178,8 @@ var require_bn = __commonJS({
         var j = 0;
         var w;
         if (endian === "be") {
-          for (i = number.length - 1; i >= start; i -= 2) {
-            w = parseHexByte(number, start, i) << off;
+          for (i = number.length - 1; i >= start2; i -= 2) {
+            w = parseHexByte(number, start2, i) << off;
             this.words[j] |= w & 67108863;
             if (off >= 18) {
               off -= 18;
@@ -1190,9 +1190,9 @@ var require_bn = __commonJS({
             }
           }
         } else {
-          var parseLength = number.length - start;
-          for (i = parseLength % 2 === 0 ? start + 1 : start; i < number.length; i += 2) {
-            w = parseHexByte(number, start, i) << off;
+          var parseLength = number.length - start2;
+          for (i = parseLength % 2 === 0 ? start2 + 1 : start2; i < number.length; i += 2) {
+            w = parseHexByte(number, start2, i) << off;
             this.words[j] |= w & 67108863;
             if (off >= 18) {
               off -= 18;
@@ -1205,10 +1205,10 @@ var require_bn = __commonJS({
         }
         this.strip();
       };
-      function parseBase(str, start, end, mul) {
+      function parseBase(str, start2, end, mul) {
         var r = 0;
         var len = Math.min(str.length, end);
-        for (var i = start; i < len; i++) {
+        for (var i = start2; i < len; i++) {
           var c = str.charCodeAt(i) - 48;
           r *= mul;
           if (c >= 49) {
@@ -1221,7 +1221,7 @@ var require_bn = __commonJS({
         }
         return r;
       }
-      BN.prototype._parseBase = function _parseBase(number, base, start) {
+      BN.prototype._parseBase = function _parseBase(number, base, start2) {
         this.words = [0];
         this.length = 1;
         for (var limbLen = 0, limbPow = 1; limbPow <= 67108863; limbPow *= base) {
@@ -1229,11 +1229,11 @@ var require_bn = __commonJS({
         }
         limbLen--;
         limbPow = limbPow / base | 0;
-        var total = number.length - start;
+        var total = number.length - start2;
         var mod = total % limbLen;
-        var end = Math.min(total, total - mod) + start;
+        var end = Math.min(total, total - mod) + start2;
         var word = 0;
-        for (var i = start; i < end; i += limbLen) {
+        for (var i = start2; i < end; i += limbLen) {
           word = parseBase(number, i, i + limbLen, base);
           this.imuln(limbPow);
           if (this.words[0] + word < 67108864) {
@@ -3703,13 +3703,13 @@ var require_bn = __commonJS({
         var res = wnd[0];
         var current = 0;
         var currentLen = 0;
-        var start = num.bitLength() % 26;
-        if (start === 0) {
-          start = 26;
+        var start2 = num.bitLength() % 26;
+        if (start2 === 0) {
+          start2 = 26;
         }
         for (i = num.length - 1; i >= 0; i--) {
           var word = num.words[i];
-          for (var j = start - 1; j >= 0; j--) {
+          for (var j = start2 - 1; j >= 0; j--) {
             var bit = word >> j & 1;
             if (res !== wnd[0]) {
               res = this.sqr(res);
@@ -3726,7 +3726,7 @@ var require_bn = __commonJS({
             currentLen = 0;
             current = 0;
           }
-          start = 26;
+          start2 = 26;
         }
         return res;
       };
@@ -4452,7 +4452,7 @@ var require_node = __commonJS({
             return explicit;
           input = explicit;
         }
-        const start = input.offset;
+        const start2 = input.offset;
         if (state.use === null && state.choice === null) {
           let save;
           if (state.any)
@@ -4470,7 +4470,7 @@ var require_node = __commonJS({
             input = body;
         }
         if (options && options.track && state.tag !== null)
-          options.track(input.path(), start, input.length, "tagged");
+          options.track(input.path(), start2, input.length, "tagged");
         if (options && options.track && state.tag !== null)
           options.track(input.path(), input.offset, input.length, "content");
         if (state.any) {
@@ -5297,7 +5297,7 @@ var require_pem2 = __commonJS({
       const lines = data.toString().split(/[\r\n]+/g);
       const label = options.label.toUpperCase();
       const re = /^-----(BEGIN|END) ([^-]+)-----$/;
-      let start = -1;
+      let start2 = -1;
       let end = -1;
       for (let i = 0; i < lines.length; i++) {
         const match = lines[i].match(re);
@@ -5305,10 +5305,10 @@ var require_pem2 = __commonJS({
           continue;
         if (match[2] !== label)
           continue;
-        if (start === -1) {
+        if (start2 === -1) {
           if (match[1] !== "BEGIN")
             break;
-          start = i;
+          start2 = i;
         } else {
           if (match[1] !== "END")
             break;
@@ -5316,9 +5316,9 @@ var require_pem2 = __commonJS({
           break;
         }
       }
-      if (start === -1 || end === -1)
+      if (start2 === -1 || end === -1)
         throw new Error("PEM section not found for: " + label);
-      const base64 = lines.slice(start + 1, end).join("");
+      const base64 = lines.slice(start2 + 1, end).join("");
       base64.replace(/[^a-z0-9+/=]+/gi, "");
       const input = Buffer2.from(base64, "base64");
       return DERDecoder.prototype.decode.call(this, input, options);
@@ -5595,12 +5595,12 @@ var require_ecdsa_sig_formatter = __commonJS({
       dst = base64Url(dst);
       return dst;
     }
-    function countPadding(buf, start, stop) {
+    function countPadding(buf, start2, stop) {
       var padding = 0;
-      while (start + padding < stop && buf[start + padding] === 0) {
+      while (start2 + padding < stop && buf[start2 + padding] === 0) {
         ++padding;
       }
-      var needsSign = buf[start + padding] >= MAX_OCTET;
+      var needsSign = buf[start2 + padding] >= MAX_OCTET;
       if (needsSign) {
         --padding;
       }
@@ -13885,24 +13885,31 @@ var import_dotenv = require("dotenv");
 var import_config = require("dotenv/config");
 var import_fastify = __toESM(require("fastify"), 1);
 (0, import_dotenv.config)();
-var app = (0, import_fastify.default)({ logger: true });
+var fast = (0, import_fastify.default)({ logger: true });
 var PORT = process.env.PORT;
-app.register(import_cors.default, {
+fast.register(import_cors.default, {
   origin: true,
   // permite todas as origens
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true
 });
-app.register(import_jwt.default, {
+fast.register(import_jwt.default, {
   secret: process.env.JWT_SECRET || "default_secret"
 });
-app.register(Routes);
-app.listen({
-  port: typeof PORT === "string" ? Number(PORT) : 3336
-}).then((address) => console.log(`server is listening on port ${address}`)).catch((err) => {
-  console.log("Error starting server:", err);
-  process.exit(1);
-});
+fast.register(Routes);
+var start = async () => {
+  try {
+    const address = await fast.listen({
+      host: "0.0.0.0",
+      port: typeof PORT === "string" ? Number(PORT) : 3336
+    });
+    console.log(`server is listening on ${address}`);
+  } catch (err) {
+    console.log("Error starting server:", err);
+    process.exit(1);
+  }
+};
+start();
 
 // src/shared/lib/client.ts
 var import_client = __toESM(require_default2(), 1);
@@ -13945,8 +13952,8 @@ var OcorrenciaUseCase = class {
 var ocorrencia_usecase_default = OcorrenciaUseCase;
 
 // src/controllers/ocorrencia/createOcorrencia.controller.ts
-var CreateOcorrenciaController = async (app2) => {
-  app2.post("/create_ocorrencia", async (req, reply) => {
+var CreateOcorrenciaController = async (fast2) => {
+  fast2.post("/create_ocorrencia", async (req, reply) => {
     try {
       const ocorrenciaUseCase = new ocorrencia_usecase_default();
       const result = await ocorrenciaUseCase.createOcorrencia({ anotacao: req.body.anotacao, origem: req.body.origem, processo: req.body.processo, procedimento: req.body.procedimento, responsavel: req.body.responsavel, ocorrencia: req.body.ocorrencia, uuid: req.body.uuid });
@@ -13971,7 +13978,7 @@ var createOcorrencia_controller_default = CreateOcorrenciaController;
 
 // src/routes/@routesOcorrencias.ts
 var routesOcorrencias = async () => {
-  app.register(createOcorrencia_controller_default);
+  fast.register(createOcorrencia_controller_default);
 };
 
 // src/shared/utils/hash.ts
@@ -14126,8 +14133,8 @@ var UserUserCase = class {
 };
 
 // src/controllers/users/createUser.controller.ts
-var createUser = async (app2) => {
-  app2.post("/create_user", async (req, reply) => {
+var createUser = async (fast2) => {
+  fast2.post("/create_user", async (req, reply) => {
     try {
       const { name, sap, password } = req.body;
       if (!name || !sap || !password) {
@@ -14173,12 +14180,12 @@ async function verifyJwt(request, reply) {
 }
 
 // src/controllers/users/deleteUser.controller.ts
-async function deleteUser(app2) {
-  app2.delete("/delete_user", { preHandler: verifyJwt }, async (req, reply) => {
+async function deleteUser(fast2) {
+  fast2.delete("/delete_user", { preHandler: verifyJwt }, async (req, reply) => {
     try {
       const { id } = req.body;
       if (!id) {
-        return reply.status(400).send({ messege: "ID do usu\xE1rio \xE9 obrigat\xF3rio" });
+        return reply.status(400).send({ message: "ID do usu\xE1rio \xE9 obrigat\xF3rio" });
       }
       const userUserCase = new UserUserCase();
       try {
@@ -14207,8 +14214,8 @@ async function deleteUser(app2) {
 }
 
 // src/controllers/users/loginUser.controller.ts
-async function loginUser(app2) {
-  app2.post("/login", async (req, reply) => {
+async function loginUser(fast2) {
+  fast2.post("/login", async (req, reply) => {
     try {
       const userUseCase = new UserUserCase();
       const { sap, password } = req.body;
@@ -14223,11 +14230,13 @@ async function loginUser(app2) {
           message: "Credenciais inv\xE1lidas"
         });
       }
-      const token = app2.jwt.sign(
+      const token = fast2.jwt.sign(
         {
           sap: user.sap,
           name: user.name,
-          userId: user.id,
+          userId: user.id
+        },
+        {
           expiresIn: "1h"
         }
       );
@@ -14249,8 +14258,8 @@ async function loginUser(app2) {
 }
 
 // src/controllers/users/updateUser.controller.ts
-async function updateUser(app2) {
-  app2.put("/update_user/:id", {
+async function updateUser(fast2) {
+  fast2.put("/update_user/:id", {
     preHandler: verifyJwt
   }, async (req, reply) => {
     try {
@@ -14283,16 +14292,16 @@ async function updateUser(app2) {
 
 // src/routes/@routes_users.ts
 var routesUsers = async () => {
-  app.register(createUser);
-  app.register(deleteUser);
-  app.register(loginUser);
-  app.register(updateUser);
+  fast.register(createUser);
+  fast.register(deleteUser);
+  fast.register(loginUser);
+  fast.register(updateUser);
 };
 
 // src/routes/@routes.ts
 var Routes = async () => {
-  app.register(routesUsers);
-  app.register(routesOcorrencias);
+  fast.register(routesUsers);
+  fast.register(routesOcorrencias);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

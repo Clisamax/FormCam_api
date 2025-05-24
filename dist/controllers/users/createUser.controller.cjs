@@ -6036,8 +6036,8 @@ var UserUserCase = class {
 };
 
 // src/controllers/users/createUser.controller.ts
-var createUser = async (app) => {
-  app.post("/create_user", async (req, reply) => {
+var createUser = async (fast) => {
+  fast.post("/create_user", async (req, reply) => {
     try {
       const { name, sap, password } = req.body;
       if (!name || !sap || !password) {

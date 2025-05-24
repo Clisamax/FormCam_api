@@ -6045,12 +6045,12 @@ async function verifyJwt(request, reply) {
 }
 
 // src/controllers/users/deleteUser.controller.ts
-async function deleteUser(app) {
-  app.delete("/delete_user", { preHandler: verifyJwt }, async (req, reply) => {
+async function deleteUser(fast) {
+  fast.delete("/delete_user", { preHandler: verifyJwt }, async (req, reply) => {
     try {
       const { id } = req.body;
       if (!id) {
-        return reply.status(400).send({ messege: "ID do usu\xE1rio \xE9 obrigat\xF3rio" });
+        return reply.status(400).send({ message: "ID do usu\xE1rio \xE9 obrigat\xF3rio" });
       }
       const userUserCase = new UserUserCase();
       try {

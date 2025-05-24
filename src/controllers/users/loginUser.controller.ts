@@ -3,8 +3,8 @@ import { login } from "../../modules/users/dtos/user.dto";
 import { UserUserCase } from "../../modules/users/useCases/user.usecase";
 
 
-export async function loginUser(app: FastifyInstance) {
-	app.post<{ Body: login }>('/login', async (req, reply) => {
+export async function loginUser(fast: FastifyInstance) {
+	fast.post<{ Body: login }>('/login', async (req, reply) => {
 		try {
 			const userUseCase = new UserUserCase()
 			const { sap, password } = req.body;
@@ -23,7 +23,7 @@ export async function loginUser(app: FastifyInstance) {
 				});
 			}
 
-			const token = app.jwt.sign(
+			const token = fast.jwt.sign(
 				{
 					sap: user.sap,
 					name: user.name,

@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { UserUserCase } from '../../modules/users/useCases/user.usecase';
 import { verifyJwt } from '../../shared/middlewares/auth';
-export async function deleteUser(app: FastifyInstance) {
-	app.delete<{ Body: { id: string } }>('/delete_user', { preHandler: verifyJwt }, async (req, reply) => {
+export async function deleteUser(fast: FastifyInstance) {
+	fast.delete<{ Body: { id: string } }>('/delete_user', { preHandler: verifyJwt }, async (req, reply) => {
 		try {
 			const { id } = req.body
 			if (!id) {

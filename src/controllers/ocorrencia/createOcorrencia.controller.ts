@@ -2,8 +2,8 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { CreateOcorrencia } from "../../modules/ocorrencia/dtos/ocorrencia.dto";
 import OcorrenciaUseCase from "../../modules/ocorrencia/useCases/ocorrencia.usecase";
 
-const CreateOcorrenciaController = async (app: FastifyInstance) => {
-	app.post<{ Body: CreateOcorrencia }>('/create_ocorrencia', async (req: FastifyRequest<{ Body: CreateOcorrencia }>, reply: FastifyReply) => {
+const CreateOcorrenciaController = async (fast: FastifyInstance) => {
+	fast.post<{ Body: CreateOcorrencia }>('/create_ocorrencia', async (req: FastifyRequest<{ Body: CreateOcorrencia }>, reply: FastifyReply) => {
 		try {
 			const ocorrenciaUseCase = new OcorrenciaUseCase();
 			const result = await ocorrenciaUseCase.createOcorrencia({ anotacao: req.body.anotacao, origem: req.body.origem, processo: req.body.processo, procedimento: req.body.procedimento, responsavel: req.body.responsavel, ocorrencia: req.body.ocorrencia, uuid: req.body.uuid });

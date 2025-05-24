@@ -3,8 +3,8 @@ import { UserUpdate } from "../../modules/users/dtos/user.dto";
 import { UserUserCase } from "../../modules/users/useCases/user.usecase";
 import { verifyJwt } from "../../shared/middlewares/auth";
 
-export async function updateUser(app: FastifyInstance) {
-	app.put<{ Params: { id: string }, Body: UserUpdate }>('/update_user/:id', {
+export async function updateUser(fast: FastifyInstance) {
+	fast.put<{ Params: { id: string }, Body: UserUpdate }>('/update_user/:id', {
 		preHandler: verifyJwt
 	}, async (req, reply) => {
 		try {

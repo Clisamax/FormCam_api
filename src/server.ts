@@ -8,39 +8,38 @@ import { Routes } from './routes/@routes';
 
 config();
 
-export const app: FastifyInstance = fastify({ logger: true });
+export const fast: FastifyInstance = fastify({ logger: true });
 
 const PORT = process.env.PORT;
 
 // habilitar qual front pode acessar
-app.register(fastifyCors, {
+fast.register(fastifyCors, {
 	origin: true, // permite todas as origens
 	methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 	credentials: true
 })
 
 // Registrar JWT antes das rotas
-app.register(fastifyJwt, {
+fast.register(fastifyJwt, {
 	secret: process.env.JWT_SECRET || 'default_secret'
 })
 
 // Registrar todas as rotas sem prefix
-app.register(Routes)
+fast.register(Routes)
 
 const start = async () => {
 	try {
-const address = await app.listen({
-	host: '0.0.0.0',
-	port: typeof PORT === 'string' ? Number(PORT) : 3336
-});
-console.log(`server is listening on ${address}`);
+		const address = await fast.listen({
+			host: '0.0.0.0',
+			port: typeof PORT === 'string' ? Number(PORT) : 3336
+		});
+		console.log(`server is listening on ${address}`);
 	}
 	catch (err) {
-console.log('Error starting server:', err)
+		console.log('Error starting server:', err)
 		process.exit(1)
 	}
 }
 
 start()
 
-export default app

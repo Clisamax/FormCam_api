@@ -2,8 +2,8 @@ import { FastifyInstance } from "fastify"
 import { UserCreate } from "../../modules/users/dtos/user.dto"
 import { UserUserCase } from "../../modules/users/useCases/user.usecase"
 
-export const createUser = async (app: FastifyInstance) => {
-	app.post<{ Body: UserCreate }>('/create_user', async (req, reply) => {
+export const createUser = async (fast: FastifyInstance) => {
+	fast.post<{ Body: UserCreate }>('/create_user', async (req, reply) => {
 		try {
 			const { name, sap, password } = req.body
 			if (!name || !sap || !password) {

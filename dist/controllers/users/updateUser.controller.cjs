@@ -6045,8 +6045,8 @@ async function verifyJwt(request, reply) {
 }
 
 // src/controllers/users/updateUser.controller.ts
-async function updateUser(app) {
-  app.put("/update_user/:id", {
+async function updateUser(fast) {
+  fast.put("/update_user/:id", {
     preHandler: verifyJwt
   }, async (req, reply) => {
     try {

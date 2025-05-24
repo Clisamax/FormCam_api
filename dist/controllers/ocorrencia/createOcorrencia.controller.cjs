@@ -5921,8 +5921,8 @@ var OcorrenciaUseCase = class {
 var ocorrencia_usecase_default = OcorrenciaUseCase;
 
 // src/controllers/ocorrencia/createOcorrencia.controller.ts
-var CreateOcorrenciaController = async (app) => {
-  app.post("/create_ocorrencia", async (req, reply) => {
+var CreateOcorrenciaController = async (fast) => {
+  fast.post("/create_ocorrencia", async (req, reply) => {
     try {
       const ocorrenciaUseCase = new ocorrencia_usecase_default();
       const result = await ocorrenciaUseCase.createOcorrencia({ anotacao: req.body.anotacao, origem: req.body.origem, processo: req.body.processo, procedimento: req.body.procedimento, responsavel: req.body.responsavel, ocorrencia: req.body.ocorrencia, uuid: req.body.uuid });
