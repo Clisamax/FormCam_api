@@ -16,7 +16,7 @@
 		"postinstall": "yarn prisma generate"
 	},
 	"dependencies": {
-		"bcrypt": "^5.1.1",
+		"bcrypt": "^6.0.0",
 		"dotenv": "^16.4.7",
 		"expo": "^53.0.9",
 		"fastify": "^5.2.1",
