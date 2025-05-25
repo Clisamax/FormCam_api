@@ -4,11 +4,14 @@
 	"main": "index.js",
 	"license": "MIT",
 	"type": "module",
+	"engines": {
+		"node": "22.16.0"
+	},
 
 	"scripts": {
 		"dev": "tsx --watch --env-file=.env src/server.ts",
-		"start": "yarn prisma migrate deploy && node src/server/ts",
 		"build": "tsup src",
+		"start": "yarn prisma migrate deploy && node dist/server.cjs",
 		"vercel-build": "yarn prisma migrate deploy && yarn build",
 		"postinstall": "yarn prisma generate"
 	},
