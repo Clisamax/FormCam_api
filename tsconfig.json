@@ -11,10 +11,12 @@
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
-		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
-		"resolveJsonModule": true
+		"declaration": false,
+		"declarationMap": false,
+		"sourceMap": false,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist"]

@@ -73,8 +73,30 @@ Este erro indica problemas com migrações do banco.
 2. Verifique se as migrações estão sincronizadas
 3. Use `yarn prisma db push` como alternativa
 
+### Erro "Dynamic require of crypto is not supported"
+Este erro ocorre quando o bundling (tsup) tenta empacotar módulos que fazem require dinâmico.
+
+**Causa:**
+- O `@fastify/jwt` faz require dinâmico do módulo `crypto`
+- O bundling não consegue resolver esses requires dinâmicos
+
+**Soluções implementadas:**
+1. **Configuração do tsup** (`tsup.config.ts`): Exclui módulos problemáticos
+2. **Script railway-tsx**: Executa diretamente com `tsx` sem bundling
+3. **Script railway-tsc**: Compila com TypeScript em vez de bundling
+
 ### Verificação de Banco de Dados
 Execute o comando para verificar a conexão:
 ```bash
 yarn check-db
-``` 
+```
+
+## Scripts Disponíveis
+
+- `yarn dev`: Desenvolvimento com tsx
+- `yarn build`: Build com tsup (bundling)
+- `yarn build-tsc`: Build com TypeScript (sem bundling)
+- `yarn railway-tsx`: Deploy Railway com tsx (recomendado)
+- `yarn railway-tsc`: Deploy Railway com TypeScript
+- `yarn railway-simple`: Deploy Railway simples
+- `yarn check-db`: Verificar conexão com banco 

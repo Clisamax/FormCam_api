@@ -9,11 +9,14 @@
 	},
 	"scripts": {
 		"dev": "tsx --watch --env-file=.env src/server.ts",
-		"build": "tsup src/server.ts --format esm --outDir dist",
+		"build": "tsup",
+		"build-tsc": "tsc --project tsconfig.json",
 		"start": "yarn prisma migrate deploy && node dist/server.js",
 		"vercel-build": "yarn prisma migrate deploy && yarn build",
 		"railway-start": "yarn prisma generate && yarn check-db && yarn prisma db push && node dist/server.js",
 		"railway-simple": "yarn prisma generate && yarn prisma db push && node dist/server.js",
+		"railway-tsc": "yarn prisma generate && yarn build-tsc && yarn prisma db push && node dist/server.js",
+		"railway-tsx": "yarn prisma generate && yarn prisma db push && tsx src/server.ts",
 		"check-db": "node scripts/check-db.js",
 		"postinstall": "yarn prisma generate"
 	},
