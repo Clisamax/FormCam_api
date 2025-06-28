@@ -69,6 +69,22 @@ yarn build
 
 O projeto está configurado para deploy no Vercel. O arquivo `vercel.json` já está configurado corretamente.
 
+#### Deploy via CLI:
+```bash
+# Instalar Vercel CLI (se não tiver)
+npm i -g vercel
+
+# Fazer login
+vercel login
+
+# Deploy
+vercel
+
+# Para produção
+vercel --prod
+```
+
+#### Deploy via GitHub:
 1. Conecte seu repositório ao Vercel
 2. Configure as variáveis de ambiente no painel do Vercel:
    - `DATABASE_URL`

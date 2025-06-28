@@ -24,6 +24,11 @@ fast.register(fastifyJwt, {
 	secret: process.env.JWT_SECRET || 'default_secret'
 })
 
+// Health check endpoint
+fast.get('/health', async (request, reply) => {
+	return { status: 'ok', timestamp: new Date().toISOString() };
+});
+
 // Registrar todas as rotas sem prefix
 fast.register(Routes)
 
