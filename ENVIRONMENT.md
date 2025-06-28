@@ -46,4 +46,35 @@ PORT=3336
 
 1. Copie o arquivo `.env.example` para `.env`
 2. Edite o arquivo `.env` com suas configurações locais
-3. Execute `yarn dev` para iniciar o servidor 
+3. Execute `yarn dev` para iniciar o servidor
+
+## Troubleshooting
+
+### Erro P1012 - Database Connection Error
+Este erro indica problemas de conexão com o banco de dados.
+
+**Possíveis causas:**
+- DATABASE_URL mal configurada
+- Banco de dados não está acessível
+- Credenciais incorretas
+- Firewall bloqueando conexão
+
+**Soluções:**
+1. Verifique se a DATABASE_URL está correta no Railway
+2. Teste a conexão localmente com `yarn check-db`
+3. Verifique se o banco PostgreSQL está ativo no Railway
+4. Confirme se as credenciais estão corretas
+
+### Erro P3009 - Migration Error
+Este erro indica problemas com migrações do banco.
+
+**Soluções:**
+1. Execute `yarn prisma migrate reset` localmente
+2. Verifique se as migrações estão sincronizadas
+3. Use `yarn prisma db push` como alternativa
+
+### Verificação de Banco de Dados
+Execute o comando para verificar a conexão:
+```bash
+yarn check-db
+``` 

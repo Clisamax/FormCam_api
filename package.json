@@ -12,7 +12,9 @@
 		"build": "tsup src/server.ts --format esm --outDir dist",
 		"start": "yarn prisma migrate deploy && node dist/server.js",
 		"vercel-build": "yarn prisma migrate deploy && yarn build",
-		"railway-start": "yarn prisma generate && yarn prisma migrate deploy && node dist/server.js",
+		"railway-start": "yarn prisma generate && yarn check-db && yarn prisma db push && node dist/server.js",
+		"railway-simple": "yarn prisma generate && yarn prisma db push && node dist/server.js",
+		"check-db": "node scripts/check-db.js",
 		"postinstall": "yarn prisma generate"
 	},
 	"dependencies": {
