@@ -41,13 +41,13 @@ class UsersRepository implements UserDto {
 	}
 	async updateUser(id: string, data: UserUpdate): Promise<User | null> {
 		try {
-			// Verifica se o usuário existe
+			// Check if the user exists
 			const existingUser = await this.findById(id)
 			if (!existingUser) {
 				return null
 			}
 
-			// Remove campos undefined do objeto de atualização
+			// Remove undefined fields from the update object
 			const updateData = Object.fromEntries(
 				Object.entries(data).filter(([_, value]) => value !== undefined)
 			)
@@ -58,7 +58,7 @@ class UsersRepository implements UserDto {
 			})
 			return result
 		} catch (error) {
-			console.error('Erro ao atualizar usuário:', error)
+			console.error('Error updating user:', error)
 			return null
 		}
 	}

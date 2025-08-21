@@ -4,22 +4,22 @@ import { UserUserCase } from "../../modules/users/useCases/user.usecase";
 
 
 export async function loginUser(fast: FastifyInstance) {
-	fast.post<{ Body: login }>('/login', async (req, reply) => {
+	fast.post<{ Body: login }>("/login", async (req, reply) => {
 		try {
 			const userUseCase = new UserUserCase()
 			const { sap, password } = req.body;
-			//=> verifica se o sap e senhas existem
+			// Validate presence of SAP and password
 			if (!sap || !password) {
 				return reply.status(400).send({
-					message: 'SAP e Senha são obrigatórios'
+					message: 'SAP and Password are required'
 				});
 			}
 
 			const user = await userUseCase.login(sap, password);
-			//=> verifica se usuário existe
+			// Check if user exists
 			if (!user) {
 				return reply.status(401).send({
-					message: 'Credenciais inválidas'
+					message: 'Invalid credentials'
 				});
 			}
 
@@ -44,9 +44,9 @@ export async function loginUser(fast: FastifyInstance) {
 				}
 			});
 		} catch (error) {
-			console.error('Erro no login:', error);
+			console.error('Login error:', error);
 			return reply.status(500).send({
-				message: 'Erro interno do servidor'
+				message: 'Internal server error'
 			});
 		}
 	});

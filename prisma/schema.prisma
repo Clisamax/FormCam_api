@@ -16,16 +16,16 @@ model User {
 	updatedAt   DateTime @updatedAt
 	@@map("user")
 }
-model Ocorrencia{
-	id				    String   @id @unique @default(uuid())
-	uuid		      String 
-	origem 		    String
-	processo	    String
-	procedimento	String
-	responsavel   String
-	ocorrencia    String
-	anotacao      String
-	createdAt		DateTime @default(now())
-	updatedAt		DateTime @updatedAt
+model Occurrence {
+	id           String   @id @unique @default(uuid())
+	uuid         String
+	origin       String   @map("origem")
+	process      String   @map("processo")
+	procedure    String   @map("procedimento")
+	responsible  String   @map("responsavel")
+	description  String   @map("ocorrencia")
+	note         String   @map("anotacao")
+	createdAt    DateTime @default(now())
+	updatedAt    DateTime @updatedAt
 	@@map("ocorrencia")
 }

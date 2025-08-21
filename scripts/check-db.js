@@ -7,22 +7,22 @@ const prisma = new PrismaClient();
 
 async function checkDatabase() {
 	try {
-		console.log("🔍 Verificando conexão com o banco de dados...");
+		console.log("🔍 Checking database connection...");
 		console.log(
 			"📡 DATABASE_URL:",
-			process.env.DATABASE_URL ? "Configurada" : "NÃO CONFIGURADA",
+			process.env.DATABASE_URL ? "Configured" : "NOT CONFIGURED",
 		);
 
 		if (!process.env.DATABASE_URL) {
-			console.error("❌ DATABASE_URL não está configurada!");
+			console.error("❌ DATABASE_URL is not configured!");
 			process.exit(1);
 		}
 
-		// Testar conexão
+		// Test connection
 		await prisma.$connect();
-		console.log("✅ Conexão com banco de dados estabelecida com sucesso!");
+		console.log("✅ Connection to the database established successfully!");
 
-		// Verificar se as tabelas existem
+		// Check if tables exist
 		const tables = await prisma.$queryRaw`
       SELECT table_name 
       FROM information_schema.tables 
@@ -30,14 +30,15 @@ async function checkDatabase() {
     `;
 
 		console.log(
-			"📋 Tabelas encontradas:",
+			"📋 Tables found:",
+			// @ts-ignore
 			tables.map((t) => t.table_name),
 		);
 
 		await prisma.$disconnect();
-		console.log("✅ Verificação concluída com sucesso!");
+		console.log("✅ Verification completed successfully!");
 	} catch (error) {
-		console.error("❌ Erro ao verificar banco de dados:", error);
+		console.error("❌ Error checking database:", error);
 		process.exit(1);
 	}
 }

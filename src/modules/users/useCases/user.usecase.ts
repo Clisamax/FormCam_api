@@ -11,7 +11,7 @@ class UserUserCase {
 		try {
 			const user = await this.UserDto.findBySap(sap)
 			if (!user) {
-				throw new Error('Usuário não encontrado')
+				throw new Error('User not found')
 			}
 			try {
 				const isValidPassword = await verifyPassword(password, user.password)
@@ -20,10 +20,10 @@ class UserUserCase {
 				}
 				return user
 			} catch (error) {
-				throw new Error('Senha ou Usuário inválido(a)')
+				throw new Error('Invalid username or password')
 			}
 		} catch (error) {
-			console.error('Erro ao encontar usuário:', error)
+			console.error('Error finding user:', error)
 			throw error
 		}
 	}
@@ -31,66 +31,66 @@ class UserUserCase {
 		const hashedPassword = await hashPassword(password);
 		const verifySap = await this.UserDto.findBySap(sap);
 		if (verifySap) {
-			throw new Error('Este usuário já existe');
+			throw new Error('This user already exists');
 		}
 		const user = await this.UserDto.create({ name, sap, password: hashedPassword })
 		return user;
 	}
 	async delete(id: string): Promise<User | null> {
 		try {
-			// Primeiro verifica se o usuário existe
+			// First, check if the user exists
 			const user = await this.UserDto.findById(id)
 			if (!user) {
-				throw new Error('Usuário não encontrado')
+				throw new Error('User not found')
 			}
 
-			// Se existir, tenta deletar
+			// If it exists, attempt to delete
 			try {
 				const deletedUser = await this.UserDto.deleteUser(user.id)
 				return deletedUser
 			} catch (error) {
-				throw new Error('Erro ao deletar usuário')
+				throw new Error('Error deleting user')
 			}
 		} catch (error) {
-			console.error('Erro ao deletar usuário:', error)
+			console.error('Error deleting user:', error)
 			throw error
 		}
 	}
 	async update(id: string, data: UserUpdate): Promise<User | null> {
 		try {
-			// Verifica se o usuário existe
+			// Check if the user exists
 			const existingUser = await this.UserDto.findById(id)
 			if (!existingUser) {
-				throw new Error('Usuário não encontrado')
+				throw new Error('User not found')
 			}
 
-			// Se estiver atualizando o SAP, verifica se já existe
+			// If updating SAP, verify if it already exists
 			if (data.sap && data.sap !== existingUser.sap) {
 				const userWithSap = await this.UserDto.findBySap(data.sap)
 				if (userWithSap) {
-					throw new Error('SAP já está em uso')
+					throw new Error('SAP is already in use')
 				}
 			}
 
-			// Hash a senha se ela for fornecida
+			// Hash the password if it is provided
 			if (data.password) {
 				data.password = await hashPassword(data.password)
 			}
 
 			const updatedUser = await this.UserDto.updateUser(id, data)
 			if (!updatedUser) {
-				throw new Error('Erro ao atualizar usuário')
+				throw new Error('Error updating user')
 			}
 
 			return updatedUser
 		} catch (error) {
-			console.error('Erro no update:', error)
+			console.error('Error in update:', error)
 			throw error
 		}
 	}
 
 	async findBySap(sap: string) {
-		throw new Error('Metodo não implementado');
+		throw new Error('Method not implemented');
 	}
 
 }
