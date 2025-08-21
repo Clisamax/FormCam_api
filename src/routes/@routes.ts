@@ -1,5 +1,5 @@
 import { fast } from "../server"
-import { routesOcorrencias } from "./@routesOcorrencias"
+import { routesOcorrencias } from "./@routesOccurrence"
 import { routesUsers } from "./@routes_users"
 
 export const Routes = async () => {

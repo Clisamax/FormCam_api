@@ -1,4 +1,4 @@
-import CreateOcorrenciaController from "../controllers/ocorrencia/createOcorrencia.controller";
+import CreateOcorrenciaController from "../controllers/occurrence/createOcorrencia.controller";
 import { fast } from "../server";
 
 export const routesOcorrencias = async () => {
