@@ -1,5 +1,5 @@
 # Login User
-POST https://maxcamapi-production.up.railway.app/login
+POST https://formcamapi-production.up.railway.app/login
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 
 # Create User
-POST https://maxcamapi-production.up.railway.app/create_user
+POST https://formcamapi-production.up.railway.app/create_user
 Content-Type: application/json
 
 {

@@ -1,6 +1,6 @@
-# MaxCam API
+# FormCam API
 
-Backend da aplicação MaxCam desenvolvido com Fastify, TypeScript e Prisma.
+Backend da aplicação FormCam desenvolvido com Fastify, TypeScript e Prisma.
 
 ## 🚀 Tecnologias
 
@@ -22,7 +22,7 @@ Backend da aplicação MaxCam desenvolvido com Fastify, TypeScript e Prisma.
 1. Clone o repositório:
 ```bash
 git clone <url-do-repositorio>
-cd maxcam_api
+cd formcam_api
 ```
 
 2. Instale as dependências:
