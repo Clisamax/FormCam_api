@@ -10,6 +10,8 @@ Backend da aplicação FormCam desenvolvido com Fastify, TypeScript e Prisma.
 - **Prisma** - ORM para banco de dados
 - **PostgreSQL** - Banco de dados
 - **JWT** - Autenticação
+- **Swagger/OpenAPI** - Documentação automática
+- **bcrypt** - Hash de senhas
 
 ## 📋 Pré-requisitos
 
@@ -104,11 +106,86 @@ Para outras plataformas, certifique-se de:
 ```
 src/
 ├── controllers/     # Controladores da aplicação
+│   ├── occurrence/  # Controladores de ocorrências
+│   ├── product/     # Controladores de produtos
+│   └── users/       # Controladores de usuários
 ├── modules/         # Módulos da aplicação
+│   ├── occurrence/  # Módulo de ocorrências
+│   ├── product/     # Módulo de produtos
+│   └── users/       # Módulo de usuários
 ├── routes/          # Rotas da API
 ├── shared/          # Código compartilhado
+│   ├── errors/      # Sistema de tratamento de erros
+│   ├── hooks/       # Hooks do Fastify
+│   ├── lib/         # Bibliotecas (Prisma Client)
+│   ├── middlewares/ # Middlewares (Auth, etc.)
+│   ├── schemas/     # Schemas de validação
+│   └── utils/       # Utilitários
 └── server.ts        # Arquivo principal do servidor
 ```
+
+## 🔧 Melhorias Implementadas
+
+### ✅ Configuração do Prisma Client
+- Singleton pattern para melhor performance
+- Graceful shutdown
+- Logs configuráveis por ambiente
+- Tratamento de erros de conexão
+
+### ✅ Sistema de Autenticação JWT
+- Middleware de autenticação aprimorado
+- Tratamento de erros JWT específicos
+- Interface TypeScript para usuário autenticado
+- Tokens com expiração de 24h
+
+### ✅ Validação de Dados
+- Schemas de validação para todos os endpoints
+- Validação automática de tipos e formatos
+- Mensagens de erro em português
+- Validação de campos obrigatórios
+
+### ✅ Sistema de Tratamento de Erros
+- Classes de erro customizadas
+- Tratamento centralizado de erros
+- Logs estruturados
+- Respostas de erro padronizadas
+
+### ✅ Documentação Automática
+- Swagger/OpenAPI integrado
+- Documentação interativa em `/docs`
+- Schemas de request/response
+- Autenticação JWT documentada
+
+### ✅ Estrutura de Rotas Otimizada
+- Versionamento da API (`/api/v1`)
+- Prefixos organizados por módulo
+- Rotas RESTful
+- Middleware de autenticação aplicado
+
+## 📚 Documentação da API
+
+Acesse a documentação interativa em:
+- **Desenvolvimento**: `http://localhost:3336/docs`
+- **Produção**: `https://formcam-api.vercel.app/docs`
+
+## 🔐 Endpoints da API
+
+### Autenticação
+- `POST /api/v1/login` - Login de usuário
+
+### Usuários
+- `POST /api/v1/users/create_user` - Criar usuário
+- `PUT /api/v1/users/update_user/:id` - Atualizar usuário (Auth)
+- `DELETE /api/v1/users/delete_user/:id` - Deletar usuário (Auth)
+
+### Ocorrências
+- `POST /api/v1/occurrences/` - Criar ocorrência (Auth)
+
+### Produtos
+- `POST /api/v1/products/` - Criar produto (Auth)
+
+### Health Check
+- `GET /health` - Status da API
 
 ## 🔒 Variáveis de Ambiente
 

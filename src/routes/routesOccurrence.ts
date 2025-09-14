@@ -1,6 +1,7 @@
+import { FastifyInstance } from "fastify";
 import CreateOccurrenceController from "../controllers/occurrence/createOccurrence.controller";
-import { fast } from "../server";
 
-export const routesOccurrences = async () => {
-	fast.register(CreateOccurrenceController)
+export const routesOccurrences = async (fast: FastifyInstance) => {
+	// Rotas de ocorrências (com prefixo /occurrences)
+	fast.register(CreateOccurrenceController, { prefix: '/occurrences' })
 }

@@ -4,7 +4,8 @@ import { routesProducts } from "./routes_product"
 import { routesUsers } from "./routes_users"
 
 export const Routes = async () => {
-	fast.register(routesUsers)
-	fast.register(routesOccurrences)
-	fast.register(routesProducts)
+	// Registrar rotas com prefixo /api/v1
+	fast.register(routesUsers, { prefix: '/api/v1' })
+	fast.register(routesOccurrences, { prefix: '/api/v1' })
+	fast.register(routesProducts, { prefix: '/api/v1' })
 }
