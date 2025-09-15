@@ -18,7 +18,9 @@ model User {
 }
 model Occurrence {
 	id           String   @id @unique @default(uuid())
-	uuid         String
+	uuid         String   @unique @map("uuid")
+  product     Product  @relation(fields: [uuid], references: [uuid])
+	name         String   @map("nome")
 	origin       String   @map("origem")
 	process      String   @map("processo")
 	procedure    String   @map("procedimento")
@@ -31,7 +33,8 @@ model Occurrence {
 }
 model Product{
 	id                 String   @id @unique @default(uuid())
-	uuid               String 
+	uuid               String   @unique
+	occurrence         Occurrence?
 	name               String   @map("nome")
 	product            String @map("produto")
 	quantity           Int    @map("quantidade")
