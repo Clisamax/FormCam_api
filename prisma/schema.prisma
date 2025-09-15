@@ -7,41 +7,47 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id          String   @id @unique @default(uuid())
-  name        String
-	sap         String  @unique
-	password    String
-  createdAt   DateTime @default(now())
-	updatedAt   DateTime @updatedAt
-	@@map("user")
+  id        String   @id @unique @default(uuid())
+  name      String
+  sap       String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
 }
+
 model Occurrence {
-	id           String   @id @unique @default(uuid())
-	uuid         String   @unique @map("uuid")
+  id          String   @id @unique @default(uuid())
+  uuid        String   @unique @map("uuid")
+  origin      String   @map("origem")
+  process     String   @map("processo")
+  procedure   String   @map("procedimento")
+  responsible String   @map("responsavel")
+  description String   @map("ocorrencia")
+  note        String   @map("anotacao")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String   @map("nome")
   product     Product  @relation(fields: [uuid], references: [uuid])
-	name         String   @map("nome")
-	origin       String   @map("origem")
-	process      String   @map("processo")
-	procedure    String   @map("procedimento")
-	responsible  String   @map("responsavel")
-	description  String   @map("ocorrencia")
-	note         String   @map("anotacao")
-	createdAt    DateTime @default(now())
-	updatedAt    DateTime @updatedAt
-	@@map("ocorrencia")
+
+  @@map("ocorrencia")
 }
-model Product{
-	id                 String   @id @unique @default(uuid())
-	uuid               String   @unique
-	occurrence         Occurrence?
-	name               String   @map("nome")
-	product            String @map("produto")
-	quantity           Int    @map("quantidade")
-	unit               String @map("unidade")
-	nameOfResponsible  String @map("nome_responsavel")
-	occurrenceDate     DateTime @map("data_ocorrencia")
-	createdAt          DateTime @default(now())
-	updatedAt          DateTime @updatedAt
-	@@map("produto")
+
+model Product {
+  id                String      @id @unique @default(uuid())
+  uuid              String      @unique
+  name              String      @map("nome")
+  product           String      @map("produto")
+  quantity          Int         @map("quantidade")
+  unit              String      @map("unidade")
+  nameOfResponsible String      @map("nome_responsavel")
+  occurrenceDate    DateTime    @map("data_ocorrencia")
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  occurrence        Occurrence?
+
+  @@map("produto")
 }

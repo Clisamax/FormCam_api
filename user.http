@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 
 # Create User
-POST https://formcamapi-production.up.railway.app/create_user
+POST https://formcamapi-production.up.railway.app/api/v1/create_user
 Content-Type: application/json
 
 {
@@ -50,7 +50,6 @@ Content-Type: application/json
 Authorization:	Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmUxMDIxLWQ5MDMtNDE1Ny1iY2UwLWQyMmQxNTRkZjg5ZiIsInNhcCI6IjExMDQzMTIyIiwibmFtZSI6ImNsaXNhbWF4IiwiaWF0IjoxNzU3OTA0MjYwLCJleHAiOjE3NTc5OTA2NjB9.sIC2USCW_drhPLwkWHnLSP13mhgskHmbL8jGIX0PiN0
 
 {
-  "uuid": "algum-uuid",
   "name": "Produto Teste",
   "product": "Tipo",
   "quantity": 10,
