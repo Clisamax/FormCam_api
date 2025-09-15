@@ -14,6 +14,7 @@ export const createProduct = async (fast: FastifyInstance) => {
 
 			// Validações adicionais
 			if (!productData.name?.trim()) {
+				req.log.error("Nome do produto é obrigatório");
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Nome do produto é obrigatório'
@@ -21,6 +22,7 @@ export const createProduct = async (fast: FastifyInstance) => {
 			}
 
 			if (!productData.product?.trim()) {
+				req.log.error("Tipo do produto é obrigatório");
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Tipo do produto é obrigatório'
@@ -28,13 +30,15 @@ export const createProduct = async (fast: FastifyInstance) => {
 			}
 
 			if (!productData.uuid?.trim()) {
+				req.log.error("UUID é obrigatório");
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'UUID é obrigatório'
 				});
 			}
 
-			if (productData.quantity <= 0) {
+			if (typeof productData.quantity !== "number" || productData.quantity <= 0) {
+				req.log.error("Quantidade deve ser maior que zero");
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Quantidade deve ser maior que zero'
@@ -43,6 +47,14 @@ export const createProduct = async (fast: FastifyInstance) => {
 
 			const productUseCase = new ProductUseCase();
 			const product = await productUseCase.createProduct(productData);
+
+			if (!product) {
+				req.log.error("Falha ao criar produto: retorno nulo ou indefinido do use case");
+				return reply.status(500).send({
+					error: 'Internal Server Error',
+					message: "Falha ao criar produto"
+				});
+			}
 
 			req.log.info(`Product ${product.name} created successfully`);
 

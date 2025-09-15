@@ -6,19 +6,23 @@ export interface Product {
 	quantity: number;
 	unit: string;
 	nameOfResponsible: string;
-	occurrenceDate: Date;	
+	occurrenceDate: Date;
 	createdAt: Date;
 	updatedAt: Date;
 }
 
 export interface ProductCreate {
+	/**
+	 * Este campo será ignorado na criação.
+	 * O uuid do produto será sempre o último uuid criado em Occurrence.
+	 */
 	uuid: string;
 	name: string;
 	product: string;
 	quantity: number;
 	unit: string;
 	nameOfResponsible: string;
-	occurrenceDate: Date;	
+	occurrenceDate: Date;
 }
 
 export interface ProductDto {
