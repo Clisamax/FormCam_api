@@ -1,53 +1,43 @@
-# Login User
+### LOGIN
 POST https://formcamapi-production.up.railway.app/api/v1/login
 Content-Type: application/json
 
 {
-	"sap": "11043122",
-	"password": "Mka957351*"
+  "sap": "11043122",
+  "password": "Mka957351*"
 }
 
-###
-
-# Create User
-POST https://formcamapi-production.up.railway.app/api/v1/create_user
+### CRIAR USUÁRIO
+POST https://formcamapi-production.up.railway.app/api/v1/users/create_user
 Content-Type: application/json
 
 {
-	"name": "clisamax",
-	"sap": "11043122",
-	"password": "Mka957351*"
+  "name": "clisamax",
+  "sap": "11043122",
+  "password": "Mka957351*"
 }
 
-###
-
-# delete user
-DELETE http://127.0.0.1:3336/delete_user
+### DELETAR USUÁRIO
+DELETE https://formcamapi-production.up.railway.app/api/v1/users/delete_user/6c25de2d-b66b-45a1-8b81-a6fe7f9e4e0a
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzYXAiOiIxMTA0MzExOSIsIm5hbWUiOiJNYXgiLCJ1c2VySWQiOiJkMDJiZDMyNi1lMjkxLTQ0YjgtYjA4OS0xNTFmOTBkOTcwY2MiLCJpYXQiOjE3MzgzNjkzNjUsImV4cCI6MTczODM5ODE2NX0.OWLhyW4ynSXyhMv1q5Zh9Z55b5NaRoogCptZyIUphWo
+Authorization: Bearer <TOKEN_AQUI>
+
+### ATUALIZAR USUÁRIO
+PUT https://formcamapi-production.up.railway.app/api/v1/users/update_user/d02bd326-e291-44b8-b089-151f90d970cc
+Content-Type: application/json
+Authorization: Bearer <TOKEN_AQUI>
 
 {
-	"id": "6c25de2d-b66b-45a1-8b81-a6fe7f9e4e0a"
+  "name": "Max",
+  "sap": "11043119",
+  "password": "Mka957351*"
 }
 
-###
-
-# update user
-PUT http://127.0.0.1:3336/update_user/d02bd326-e291-44b8-b089-151f90d970cc
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzYXAiOiIxMTA0MzExOSIsIm5hbWUiOiJNYXgiLCJ1c2VySWQiOiJkMDJiZDMyNi1lMjkxLTQ0YjgtYjA4OS0xNTFmOTBkOTcwY2MiLCJpYXQiOjE3MzgzNjk1MjAsImV4cCI6MTczODM5ODMyMH0.Ap3Hz_Rg1LysJOGSVW0TBf1p8ibu7JfnFNWckEXu7y8
-
-{
-    "name": "Max",
-    "sap": "11043119",
-    "password": "Mka957351*"
-}
-###
-
-#  Product Create
+### CRIAR PRODUTO
 POST https://formcamapi-production.up.railway.app/api/v1/products
 Content-Type: application/json
-Authorization:	Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmUxMDIxLWQ5MDMtNDE1Ny1iY2UwLWQyMmQxNTRkZjg5ZiIsInNhcCI6IjExMDQzMTIyIiwibmFtZSI6ImNsaXNhbWF4IiwiaWF0IjoxNzU3OTA0MjYwLCJleHAiOjE3NTc5OTA2NjB9.sIC2USCW_drhPLwkWHnLSP13mhgskHmbL8jGIX0PiN0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFhN2ZhMDhlLWJlNDctNGYwNS04MWYzLWE5ZWQ5MGU4ZmUxNCIsInNhcCI6IjExMDQzMTIyIiwibmFtZSI6ImNsaXNhbWF4IiwiaWF0IjoxNzU3OTcwODU2LCJleHAiOjE3NTgwNTcyNTZ9.W9w_pXCyQIbAJw-5XJB5LuipGHPFqfyhLmvgCe4Vd0A
+
 
 {
   "name": "Produto Teste",
@@ -56,4 +46,18 @@ Authorization:	Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmUxMDIxL
   "unit": "unidade",
   "nameOfResponsible": "Responsável",
   "occurrenceDate": "2024-06-01T00:00:00.000Z"
+}
+
+### CRIAR OCORRÊNCIA
+POST https://formcamapi-production.up.railway.app/api/v1/occurrences
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFhN2ZhMDhlLWJlNDctNGYwNS04MWYzLWE5ZWQ5MGU4ZmUxNCIsInNhcCI6IjExMDQzMTIyIiwibmFtZSI6ImNsaXNhbWF4IiwiaWF0IjoxNzU3OTcwODU2LCJleHAiOjE3NTgwNTcyNTZ9.W9w_pXCyQIbAJw-5XJB5LuipGHPFqfyhLmvgCe4Vd0A
+
+{
+  "origin": "Origem Teste",
+  "process": "Processo Teste",
+  "procedure": "Procedimento Teste",
+  "responsible": "Responsável Teste",
+  "description": "Descrição Teste",
+  "note": "Nota Teste"
 }
