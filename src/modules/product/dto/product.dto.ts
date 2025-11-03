@@ -9,13 +9,10 @@ export interface Product {
 	occurrenceDate: Date;
 	createdAt: Date;
 	updatedAt: Date;
+	
 }
 
 export interface ProductCreate {
-	/**
-	 * Este campo será ignorado na criação.
-	 * O uuid do produto será sempre o último uuid criado em Occurrence.
-	 */
 	uuid: string;
 	name: string;
 	product: string;
@@ -23,6 +20,7 @@ export interface ProductCreate {
 	unit: string;
 	nameOfResponsible: string;
 	occurrenceDate: Date;
+	occurrence: string;
 }
 
 export interface ProductDto {
