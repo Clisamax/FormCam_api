@@ -4,7 +4,7 @@
 		"builder": "NIXPACKS"
 	},
 	"deploy": {
-		"startCommand": "yarn railway-tsx",
+		"startCommand": "yarn build-tsc && yarn railway-tsc",
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 100,
 		"restartPolicyType": "ON_FAILURE",

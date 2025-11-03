@@ -127,7 +127,7 @@ const start = async () => {
 
 		const address = await fast.listen({
 			host: '0.0.0.0',
-			port: typeof PORT === 'string' ? Number(PORT) : 3336
+			port: typeof PORT === 'string' ? Number(PORT) : 3339
 		});
 		console.log(`🚀 Server is listening on ${address}`);
 	}
