@@ -29,6 +29,9 @@ COPY . .
 # Gera o Prisma Client (já foi executado pelo `postinstall` do seu package.json, mas garantimos aqui).
 RUN yarn prisma generate
  
+# Build the application
+RUN yarn build
+ 
 # ===================================================================================
 # Estágio 2: RUNNER - Cria a imagem final de produção, leve e otimizada
 # ===================================================================================
@@ -51,11 +54,9 @@ RUN yarn install --production
  
 # Copia os arquivos compilados e necessários para produção
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/src ./src
-COPY --from=builder /usr/src/app/node_modules ./node_modules
  
 # Expõe a porta que a aplicação usa
 EXPOSE 3339
  
 # Comando para iniciar o servidor de produção
-CMD ["yarn", "railway-tsx"]
+CMD ["yarn", "start"]

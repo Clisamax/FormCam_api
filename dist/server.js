@@ -29565,7 +29565,7 @@ var fast = (0, import_fastify.default)({
   }
 });
 fast.setErrorHandler(errorHandler);
-var PORT = process.env.PORT;
+var PORT = process.env.PORT || 3339;
 fast.register(fastifyCors, {
   origin: true,
   // permite todas as origens
@@ -29640,13 +29640,18 @@ fast.get("/health", {
         type: "object",
         properties: {
           status: { type: "string" },
-          timestamp: { type: "string", format: "date-time" }
+          timestamp: { type: "string", format: "date-time" },
+          uptime: { type: "number" }
         }
       }
     }
   }
 }, async (request, reply) => {
-  return { status: "ok", timestamp: (/* @__PURE__ */ new Date()).toISOString() };
+  return {
+    status: "ok",
+    timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+    uptime: process.uptime()
+  };
 });
 fast.register(Routes);
 var start = async () => {
@@ -29655,9 +29660,10 @@ var start = async () => {
     console.log("\u2705 Database connected successfully");
     const address = await fast.listen({
       host: "0.0.0.0",
-      port: typeof PORT === "string" ? Number(PORT) : 3339
+      port: typeof PORT === "string" ? Number.parseInt(PORT, 10) : PORT
     });
     console.log(`\u{1F680} Server is listening on ${address}`);
+    console.log(`\u{1F3E5} Health check available at ${address}/health`);
   } catch (err) {
     console.error("\u274C Error starting server:", err);
     await prisma.$disconnect();

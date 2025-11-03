@@ -22,8 +22,8 @@ services:
       PORT: 3339
     depends_on:
       - db
-    # Use the railway-tsx command which works better for containerized environments
-    command: yarn railway-tsx
+    # Use the start command which works better for containerized environments
+    command: yarn start
 
   api-dev:
     build: .

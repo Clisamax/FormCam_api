@@ -33,6 +33,23 @@ model Occurrence {
   updatedAt   DateTime @updatedAt
   userSap     String   @map("user_sap")
   sap         User     @relation(fields: [userSap], references: [sap], onDelete: Cascade)
+  products    Product[]
 
   @@map("ocorrencia")
+}
+
+model Product {
+  id                String   @id @unique @default(uuid())
+  uuid              String   @unique
+  name              String
+  product           String   @map("produto")
+  quantity          Int      @map("quantidade")
+  unit              String   @map("unidade")
+  nameOfResponsible String   @map("nome_responsavel")
+  occurrenceDate    DateTime @map("data_ocorrencia")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  occurrence        Occurrence @relation(fields: [uuid], references: [uuid], onDelete: Restrict)
+
+  @@map("produto")
 }
