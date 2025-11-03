@@ -109,26 +109,11 @@ fast.get('/health', {
 					status: { type: 'string' },
 					timestamp: { type: 'string', format: 'date-time' }
 				}
-			},
-			503: {
-				description: 'Service Unavailable',
-				type: 'object',
-				properties: {
-					status: { type: 'string' },
-					db: { type: 'string' },
-					timestamp: { type: 'string', format: 'date-time' }
-				}
 			}
 		}
 	}
 }, async (request, reply) => {
-	try {
-		await prisma.$queryRaw`SELECT 1`;
-		return { status: 'ok', timestamp: new Date().toISOString() };
-	} catch (error) {
-		fast.log.error('Health check failed due to database connection issue.', error);
-		return reply.code(503).send({ status: 'error', db: 'unhealthy', timestamp: new Date().toISOString() });
-	}
+	return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
 // Registrar todas as rotas sem prefix
@@ -154,3 +139,4 @@ const start = async () => {
 }
 
 start()
+
