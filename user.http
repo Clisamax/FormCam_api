@@ -1,5 +1,5 @@
 ### LOGIN
-POST https://formcamapi-production.up.railway.app/api/v1/login
+POST http://localhost:3337/api/v1/auth/login
 Content-Type: application/json
 
 {
