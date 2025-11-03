@@ -93,6 +93,37 @@ vercel --prod
    - `JWT_SECRET`
 3. O deploy será automático a cada push
 
+### Railway
+
+O projeto está configurado para deploy no Railway com o arquivo `railway.json`.
+
+#### Deploy via CLI:
+```bash
+# Instalar Railway CLI (se não tiver)
+npm i -g @railway/cli
+
+# Fazer login
+railway login
+
+# Criar novo projeto
+railway init
+
+# Deploy
+railway up
+```
+
+#### Deploy via GitHub:
+1. Conecte seu repositório ao Railway
+2. Configure as variáveis de ambiente no painel do Railway:
+   - `DATABASE_URL` (obtida do serviço PostgreSQL do Railway)
+   - `JWT_SECRET` (crie uma chave secreta forte)
+3. O deploy será automático a cada push
+
+#### Comandos Railway Específicos:
+- `yarn railway-tsx`: Comando de inicialização recomendado para Railway
+- `yarn railway-simple`: Alternativa mais simples
+- `yarn railway-tsc`: Build com TypeScript
+
 ### Outras plataformas
 
 Para outras plataformas, certifique-se de:
@@ -199,3 +230,4 @@ Acesse a documentação interativa em:
 - `yarn build`: Gera o build de produção
 - `yarn start`: Inicia o servidor de produção
 - `yarn vercel-build`: Build específico para Vercel
+- `yarn railway-tsx`: Comando de inicialização recomendado para Railway

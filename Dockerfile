@@ -46,14 +46,16 @@ COPY package.json yarn.lock ./
 # Copia a pasta prisma ANTES de instalar as dependências para que o `postinstall` funcione.
 COPY --from=builder /usr/src/app/prisma ./prisma
  
-# Instala TODAS as dependências para evitar problemas com módulos externos
-RUN yarn install
+# Instala apenas as dependências de produção para uma imagem mais leve
+RUN yarn install --production
  
-# Copia todo o código-fonte.
-COPY --from=builder /usr/src/app ./.
+# Copia os arquivos compilados e necessários para produção
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/src ./src
+COPY --from=builder /usr/src/app/node_modules ./node_modules
  
 # Expõe a porta que a aplicação usa
 EXPOSE 3339
  
 # Comando para iniciar o servidor de produção
-CMD ["yarn", "tsx", "src/server.ts"]
+CMD ["yarn", "railway-tsx"]

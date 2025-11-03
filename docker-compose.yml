@@ -22,8 +22,8 @@ services:
       PORT: 3339
     depends_on:
       - db
-    # Override the default command to use tsx directly
-    command: yarn tsx src/server.ts
+    # Use the railway-tsx command which works better for containerized environments
+    command: yarn railway-tsx
 
   api-dev:
     build: .

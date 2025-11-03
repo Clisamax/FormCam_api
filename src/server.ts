@@ -27,7 +27,7 @@ export const fast: FastifyInstance = fastify({
 // Registrar error handler global
 fast.setErrorHandler(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3339;
 
 // habilitar qual front pode acessar
 fast.register(fastifyCors, {
@@ -107,13 +107,18 @@ fast.get('/health', {
 				type: 'object',
 				properties: {
 					status: { type: 'string' },
-					timestamp: { type: 'string', format: 'date-time' }
+					timestamp: { type: 'string', format: 'date-time' },
+					uptime: { type: 'number' }
 				}
 			}
 		}
 	}
 }, async (request, reply) => {
-	return { status: 'ok', timestamp: new Date().toISOString() };
+	return {
+		status: 'ok',
+		timestamp: new Date().toISOString(),
+		uptime: process.uptime()
+	};
 });
 
 // Registrar todas as rotas sem prefix
@@ -127,9 +132,10 @@ const start = async () => {
 
 		const address = await fast.listen({
 			host: '0.0.0.0',
-			port: typeof PORT === 'string' ? Number(PORT) : 3339
+			port: typeof PORT === 'string' ? Number.parseInt(PORT, 10) : PORT
 		});
 		console.log(`🚀 Server is listening on ${address}`);
+		console.log(`🏥 Health check available at ${address}/health`);
 	}
 	catch (err) {
 		console.error('❌ Error starting server:', err)
@@ -139,4 +145,3 @@ const start = async () => {
 }
 
 start()
-
