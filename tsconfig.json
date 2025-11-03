@@ -16,8 +16,10 @@
 		"sourceMap": false,
 		"resolveJsonModule": true,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
+		"emitDecoratorMetadata": true,
+		//"typeRoots": ["node_modules/@types", "@types"]
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist"]
+	"exclude": ["node_modules", "dist"],
+	
 }

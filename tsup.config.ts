@@ -41,11 +41,11 @@ export default defineConfig({
 		'tty',
 		'v8',
 		'vm',
-		'worker_threads'
+		'worker_threads',
+		'dotenv'
 	],
 	noExternal: [
-		'fastify',
-		'dotenv'
+		'fastify'
 	],
 	clean: true,
 	sourcemap: false,

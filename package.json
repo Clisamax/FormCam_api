@@ -8,7 +8,7 @@
 		"node": ">=18.0.0"
 	},
 	"scripts": {
-		"dev": "tsx --watch --env-file=.env src/server.ts",
+		"dev": "tsx --watch --env-file=.env  src/server.ts",
 		"build": "tsup",
 		"build-tsc": "tsc --project tsconfig.json",
 		"start": "yarn prisma migrate deploy && node dist/server.js",
@@ -21,20 +21,22 @@
 		"postinstall": "yarn prisma generate"
 	},
 	"dependencies": {
-		"@prisma/client": "^6.16.1",
 		"@fastify/cors": "^10.0.2",
 		"@fastify/jwt": "^9.0.3",
 		"@fastify/swagger": "^9.5.1",
 		"@fastify/swagger-ui": "^5.2.3",
-		"bcryptjs": "^2.4.3",
+		"@prisma/client": "^6.16.1",
+		"bcrypt": "^6.0.0",
 		"dotenv": "^16.4.7",
 		"fastify": "^5.2.1",
 		"jsonwebtoken": "^9.0.2",
+		"pino": "^10.1.0",
+		"pino-pretty": "^13.1.2",
 		"uuid": "^13.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@types/bcryptjs": "^2.4.6",
+		"@types/bcrypt": "^6.0.0",
 		"@types/node": "^22.13.0",
 		"prisma": "^6.16.1",
 		"tsup": "^8.5.0",

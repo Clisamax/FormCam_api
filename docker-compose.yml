@@ -12,28 +12,28 @@ services:
       - postgres_data:/var/lib/postgresql/data
  
   api:
-    platform: linux/amd64
     build: .
     container_name: formcam_api
     ports:
-      - "3336:3336"
+      - "3339:3339"
     environment:
       DATABASE_URL: "postgresql://docker:docker_password@db:5432/formcam"
       JWT_SECRET: "your-super-secret-key-for-docker"
-      PORT: 3336
+      PORT: 3339
     depends_on:
       - db
+    # Override the default command to use tsx directly
+    command: yarn tsx src/server.ts
 
   api-dev:
-    platform: linux/amd64
     build: .
     container_name: formcam_api_dev
     ports:
-      - "3337:3336" # Mapeando para uma porta diferente no host (3337) para não conflitar com o serviço 'api'
+      - "3337:3339"
     environment:
       DATABASE_URL: "postgresql://docker:docker_password@db:5432/formcam"
       JWT_SECRET: "your-super-secret-key-for-docker-dev"
-      PORT: 3336
+      PORT: 3339
     depends_on:
       - db
     volumes:
@@ -41,7 +41,8 @@ services:
       - .:/usr/src/app
       # Evita que a pasta node_modules do host sobrescreva a do contêiner
       - /usr/src/app/node_modules
-    command: yarn dev
+    # Override the default command to install all dependencies and run dev
+    command: sh -c "yarn install && yarn dev"
  
 volumes:
   postgres_data:
