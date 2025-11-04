@@ -51,7 +51,7 @@ fast.register(fastifySwagger, {
 		servers: [
 			{
 				url: process.env.NODE_ENV === 'production'
-					? 'https://formcam-api.vercel.app'
+					? 'formcamapi-production.up.railway.app'
 					: `http://localhost:${process.env.PORT || 3339}`,
 				description: process.env.NODE_ENV === 'production' ? 'Production' : 'Development'
 			}
