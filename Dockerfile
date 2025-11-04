@@ -29,8 +29,8 @@ COPY . .
 # Gera o Prisma Client (já foi executado pelo `postinstall` do seu package.json, mas garantimos aqui).
 RUN yarn prisma generate
  
-# Build the application
-RUN yarn build
+# Build the application (sem bundling para evitar dynamic require)
+RUN yarn build-tsc
  
 # ===================================================================================
 # Estágio 2: RUNNER - Cria a imagem final de produção, leve e otimizada
