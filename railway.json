@@ -4,7 +4,7 @@
 		"builder": "NIXPACKS"
 	},
 	"deploy": {
-		"startCommand": "npm start",
+		"startCommand": "bash -lc \"corepack enable && corepack prepare yarn@1.22.22 --activate && yarn start\"",
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 300,
 		"restartPolicyType": "ON_FAILURE",
