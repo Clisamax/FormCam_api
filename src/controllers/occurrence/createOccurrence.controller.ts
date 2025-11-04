@@ -4,51 +4,54 @@ import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usec
 import { verifyJwt } from "../../shared/middlewares/auth";
 import { occurrenceSchemas } from "../../shared/schemas";
 
+type CreateOccurrenceBody = Omit<CreateOccurrence, 'userSap'>;
+
 const CreateOccurrenceController = async (fast: FastifyInstance) => {
-	fast.post<{ Body: CreateOccurrence }>("/", {
+	fast.post<{ Body: CreateOccurrenceBody }>("/", {
 		schema: occurrenceSchemas.createOccurrence,
 		preHandler: verifyJwt
-	}, async (req: FastifyRequest<{ Body: CreateOccurrence }>, reply: FastifyReply) => {
+	}, async (req: FastifyRequest<{ Body: CreateOccurrenceBody }>, reply: FastifyReply) => {
 		try {
-			const occurrenceData = req.body;
+			const occurrenceBody = req.body;
+			const userSap = req.authenticatedUser?.sap;
 
-			// Validações adicionais
-			if (!occurrenceData.uuid?.trim()) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'UUID é obrigatório'
+			if (!userSap?.trim()) {
+				return reply.status(401).send({
+					error: 'Unauthorized',
+					message: 'Usuário não autenticado'
 				});
 			}
 
-			if (!occurrenceData.origin?.trim()) {
+
+			if (!occurrenceBody.origin?.trim()) {
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Origem é obrigatória'
 				});
 			}
 
-			if (!occurrenceData.process?.trim()) {
+			if (!occurrenceBody.process?.trim()) {
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Processo é obrigatório'
 				});
 			}
 
-			if (!occurrenceData.procedure?.trim()) {
+			if (!occurrenceBody.procedure?.trim()) {
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Procedimento é obrigatório'
 				});
 			}
 
-			if (!occurrenceData.responsible?.trim()) {
+			if (!occurrenceBody.responsible?.trim()) {
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Responsável é obrigatório'
 				});
 			}
 
-			if (!occurrenceData.description?.trim()) {
+			if (!occurrenceBody.description?.trim()) {
 				return reply.status(400).send({
 					error: 'Validation Error',
 					message: 'Descrição é obrigatória'
@@ -56,7 +59,10 @@ const CreateOccurrenceController = async (fast: FastifyInstance) => {
 			}
 
 			const occurrenceUseCase = new OccurrenceUseCase();
-			const result = await occurrenceUseCase.createOccurrence(occurrenceData);
+			const result = await occurrenceUseCase.createOccurrence({
+				...occurrenceBody,
+				userSap
+			});
 
 			req.log.info(`Occurrence ${result.uuid} created successfully`);
 

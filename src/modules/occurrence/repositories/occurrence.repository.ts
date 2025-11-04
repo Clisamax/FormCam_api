@@ -6,7 +6,7 @@ export class OccurrenceRepository implements OccurrenceDto {
 	async create(data: CreateOccurrence): Promise<Occurrence> {
 		const result = await prisma.occurrence.create({
 			data: {
-				uuid: uuidv4(),
+				uuid: data.uuid,
 				origin: data.origin,
 				process: data.process,
 				procedure: data.procedure,

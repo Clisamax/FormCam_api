@@ -36,9 +36,7 @@ export const createProduct = async (fast: FastifyInstance) => {
 				});
 			}
 
-			if (!productData.uuid?.trim()) {
-				// Não valida mais o uuid vindo do body, pois será gerado automaticamente
-			}
+			// uuid do body não é necessário; será gerado automaticamente e usado para ambas as criações
 
 			if (typeof productData.quantity !== "number" || productData.quantity <= 0) {
 				req.log.error("Quantidade deve ser maior que zero");
@@ -63,7 +61,8 @@ export const createProduct = async (fast: FastifyInstance) => {
 				procedure: "",
 				responsible: productData.nameOfResponsible || "",
 				description: "",
-				note: ""
+				note: "",
+				userSap: req.authenticatedUser?.sap || ""
 			};
 			const occurrence = await occurrenceUseCase.createOccurrence(occurrenceData);
 

@@ -317,12 +317,9 @@ export const productSchemas = {
 		security: [{ bearerAuth: [] }],
 		body: {
 			type: 'object',
-			required: ['uuid', 'name', 'product', 'quantity', 'unit', 'nameOfResponsible', 'occurrenceDate'],
+			required: ['name', 'product', 'quantity', 'unit', 'nameOfResponsible', 'occurrenceDate'],
 			properties: {
-				uuid: {
-					type: 'string',
-					description: 'UUID único do produto'
-				},
+				// uuid será gerado pelo servidor e compartilhado com a ocorrência
 				name: {
 					type: 'string',
 					minLength: 1,
