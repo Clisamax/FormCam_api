@@ -65,4 +65,4 @@ CREATE UNIQUE INDEX "produto_uuid_key" ON "public"."produto"("uuid");
 ALTER TABLE "public"."ocorrencia" ADD CONSTRAINT "ocorrencia_user_sap_fkey" FOREIGN KEY ("user_sap") REFERENCES "public"."user"("sap") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."produto" ADD CONSTRAINT "produto_uuid_fkey" FOREIGN KEY ("uuid") REFERENCES "public"."ocorrencia"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public"."produto" ADD CONSTRAINT "produto_uuid_fkey" FOREIGN KEY ("uuid") REFERENCES "public"."ocorrencia"("uuid") ON DELETE CASCADE ON UPDATE CASCADE;

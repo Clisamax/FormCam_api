@@ -124,18 +124,22 @@ fast.get('/health', {
 // Registrar todas as rotas sem prefix
 fast.register(Routes)
 
-const start = async () => {
+const start = async (): Promise<void> => {
 	try {
-		// Conectar ao banco de dados
-		await prisma.$connect();
-		console.log('✅ Database connected successfully');
-
 		const address = await fast.listen({
 			host: '0.0.0.0',
 			port: typeof PORT === 'string' ? Number.parseInt(PORT, 10) : PORT
 		});
 		console.log(`🚀 Server is listening on ${address}`);
 		console.log(`🏥 Health check available at ${address}/health`);
+
+		// Conectar ao banco de dados após o servidor iniciar
+		await prisma.$connect();
+		console.log('✅ Database connected successfully');
+
+		// Sinalizar que o fastify está pronto para aceitar conexões
+		await fast.ready();
+
 	}
 	catch (err) {
 		console.error('❌ Error starting server:', err)
@@ -144,4 +148,4 @@ const start = async () => {
 	}
 }
 
-start()
+void start()
