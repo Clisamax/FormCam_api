@@ -4,7 +4,7 @@
 		"builder": "NIXPACKS"
 	},
 	"deploy": {
-		"startCommand": ". /nix/profile/etc/profile.d/nix.sh && node dist/server.js",
+		"startCommand": "yarn start",
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 300,
 		"restartPolicyType": "ON_FAILURE",
