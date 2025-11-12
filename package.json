@@ -19,7 +19,7 @@
 		"railway-tsc": "yarn prisma generate && yarn build-tsc && yarn prisma db push && node dist/server.js",
 		"railway-tsx": "yarn prisma generate && yarn prisma migrate deploy && tsx src/server.ts",
 		"check-db": "node scripts/check-db.js",
-		"postinstall": "yarn prisma generate"
+		"postinstall": "yarn prisma generate && yarn prisma migrate deploy"
 	},
 	"dependencies": {
 		"@fastify/cors": "^10.0.2",
