@@ -1,0 +1,4 @@
+[variables]
+# Define a variável de ambiente que o Nixpacks/Railpack lê
+# para determinar a versão do Node.js.
+NODE_VERSION = "24"
