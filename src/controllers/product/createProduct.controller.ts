@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
-import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto";
-import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase";
-import { ProductCreate } from "../../modules/product/dto/product.dto";
-import ProductUseCase from "../../modules/product/useCases/product.usecase";
-import { verifyJwt } from "../../shared/middlewares/auth";
-import { productSchemas } from "../../shared/schemas";
+import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto.js";
+import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase.js";
+import { ProductCreate } from "../../modules/product/dto/product.dto.js";
+import ProductUseCase from "../../modules/product/useCases/product.usecase.js";
+import { verifyJwt } from "../../shared/middlewares/auth.js";
+import { productSchemas } from "../../shared/schemas/index.js";
 
 import { v4 as uuidv4 } from "uuid";
 

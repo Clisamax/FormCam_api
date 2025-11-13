@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify"
-import { UserCreate } from "../../modules/users/dtos/user.dto"
-import { UserUserCase } from "../../modules/users/useCases/user.usecase"
-import { userSchemas } from "../../shared/schemas"
+import { UserCreate } from "../../modules/users/dtos/user.dto.js"
+import { UserUserCase } from "../../modules/users/useCases/user.usecase.js"
+import { userSchemas } from "../../shared/schemas/index.js"
 
 export const createUser = async (fast: FastifyInstance) => {
 	fast.post<{ Body: UserCreate }>("/create_user", {

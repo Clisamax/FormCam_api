@@ -5,7 +5,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import { config } from 'dotenv';
 import 'dotenv/config';
 import fastify from 'fastify';
-import { Routes } from './routes/@routes';
+import { Routes } from 'ç';
 import { errorHandler } from './shared/hooks/errorHandler';
 import { prisma } from './shared/lib/client';
 config();

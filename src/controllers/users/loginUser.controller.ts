@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { login } from "../../modules/users/dtos/user.dto";
-import { UserUserCase } from "../../modules/users/useCases/user.usecase";
+import { login } from "../../modules/users/dtos/user.dto.js";
+import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
 
 export async function loginUser(fast: FastifyInstance) {
 	fast.post<{ Body: login }>("/login", {

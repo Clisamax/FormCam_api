@@ -1,8 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto";
-import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase";
-import { verifyJwt } from "../../shared/middlewares/auth";
-import { occurrenceSchemas } from "../../shared/schemas";
+import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto.js";
+import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase.js";
+import { verifyJwt } from "../../shared/middlewares/auth.js";
+import { occurrenceSchemas } from "../../shared/schemas/index.js";
 
 type CreateOccurrenceBody = Omit<CreateOccurrence, 'userSap'>;
 

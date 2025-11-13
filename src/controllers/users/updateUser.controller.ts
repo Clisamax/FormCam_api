@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { UserUpdate } from "../../modules/users/dtos/user.dto";
-import { UserUserCase } from "../../modules/users/useCases/user.usecase";
-import { verifyJwt } from "../../shared/middlewares/auth";
-import { userSchemas } from "../../shared/schemas";
+import { UserUpdate } from "../../modules/users/dtos/user.dto.js";
+import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
+import { verifyJwt } from "../../shared/middlewares/auth.js";
+import { userSchemas } from "../../shared/schemas/index.js";
 
 export async function updateUser(fast: FastifyInstance) {
 	fast.put<{ Params: { id: string }, Body: UserUpdate }>("/update_user/:id", {

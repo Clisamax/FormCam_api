@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
-import { UserUserCase } from '../../modules/users/useCases/user.usecase';
-import { verifyJwt } from '../../shared/middlewares/auth';
-import { userSchemas } from '../../shared/schemas';
+import { UserUserCase } from '../../modules/users/useCases/user.usecase.js';
+import { verifyJwt } from '../../shared/middlewares/auth.js';
+import { userSchemas } from '../../shared/schemas/index.js';
 
 export async function deleteUser(fast: FastifyInstance) {
 	fast.delete<{ Params: { id: string } }>("/delete_user/:id", {
