@@ -81,7 +81,7 @@ const CreateOccurrenceController = async (fast: FastifyInstance) => {
 				}
 			});
 		} catch (error) {
-			req.log.error('Create occurrence error:', error);
+			req.log.error(error, 'Create occurrence error');
 
 			if (error instanceof Error) {
 				return reply.status(400).send({

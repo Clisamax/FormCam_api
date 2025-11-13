@@ -102,7 +102,7 @@ export async function loginUser(fast: FastifyInstance) {
 				}
 			});
 		} catch (error) {
-			req.log.error('Login error:', error);
+			req.log.error(error, 'Login error');
 
 			if (error instanceof Error) {
 				if (error.message === 'User not found') {

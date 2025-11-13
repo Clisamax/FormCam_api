@@ -73,7 +73,7 @@ export async function updateUser(fast: FastifyInstance) {
 				}
 			});
 		} catch (error) {
-			req.log.error('Update user error:', error);
+			req.log.error(error, 'Update user error');
 
 			if (error instanceof Error) {
 				if (error.message === 'User not found') {

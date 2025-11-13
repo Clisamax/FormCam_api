@@ -28,7 +28,7 @@ export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
 		}
 	} catch (error) {
 		// Log do erro para debugging
-		request.log.error('JWT verification failed:', error)
+		request.log.error(error, 'JWT verification failed')
 
 		// Diferentes tipos de erro JWT
 		if (error instanceof Error) {

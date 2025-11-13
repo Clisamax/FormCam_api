@@ -41,7 +41,7 @@ export async function deleteUser(fast: FastifyInstance) {
 					}
 				})
 			} catch (error) {
-				req.log.error('Delete user error:', error);
+				req.log.error(error, 'Delete user error');
 
 				if (error instanceof Error) {
 					if (error.message === 'User not found') {
@@ -57,7 +57,7 @@ export async function deleteUser(fast: FastifyInstance) {
 				}
 			}
 		} catch (error) {
-			req.log.error('Delete user error:', error);
+			req.log.error(error, 'Delete user error');
 			return reply.status(500).send({
 				error: 'Internal Server Error',
 				message: 'Erro interno do servidor'

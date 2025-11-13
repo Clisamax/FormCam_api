@@ -59,7 +59,7 @@ export const createUser = async (fast: FastifyInstance) => {
 			})
 
 		} catch (error) {
-			req.log.error('Create user error:', error);
+			req.log.error(error, 'Create user error');
 
 			if (error instanceof Error) {
 				if (error.message === 'This user already exists') {

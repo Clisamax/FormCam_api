@@ -103,7 +103,7 @@ export const createProduct = async (fast: FastifyInstance) => {
 			});
 
 		} catch (error) {
-			req.log.error('Create product error:', error);
+			req.log.error(error, 'Create product error');
 
 			if (error instanceof Error) {
 				return reply.status(400).send({
