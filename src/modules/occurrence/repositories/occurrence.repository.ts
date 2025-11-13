@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { prisma } from "../../../shared/lib/client";
-import { CreateOccurrence, Occurrence, OccurrenceDto } from "../dtos/occurrence.dto";
+import { prisma } from "../../../shared/lib/client.js";
+import { CreateOccurrence, Occurrence, OccurrenceDto } from "../dtos/occurrence.dto.js";
 
 export class OccurrenceRepository implements OccurrenceDto {
 	async create(data: CreateOccurrence): Promise<Occurrence> {

@@ -1,5 +1,5 @@
-import { Product, ProductCreate } from '../dto/product.dto';
-import { ProductRepository } from '../repositories/product.repository';
+import { Product, ProductCreate } from '../dto/product.dto.js';
+import { ProductRepository } from '../repositories/product.repository.js';
 
 class ProductUseCase {
 	private productRepository: ProductRepository;

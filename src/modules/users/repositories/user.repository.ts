@@ -1,5 +1,5 @@
-import { prisma } from "../../../shared/lib/client";
-import { User, UserCreate, UserDto, UserUpdate } from "../dtos/user.dto";
+import { prisma } from "../../../shared/lib/client.js";
+import { User, UserCreate, UserDto, UserUpdate } from "../dtos/user.dto.js";
 
 class UsersRepository implements UserDto {
 	async create(data: UserCreate): Promise<User> {

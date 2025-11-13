@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { prisma } from "../../../shared/lib/client";
-import { Product, ProductCreate, ProductDto } from "../dto/product.dto";
+import { prisma } from "../../../shared/lib/client.js";
+import { Product, ProductCreate, ProductDto } from "../dto/product.dto.js";
 
 export class ProductRepository implements ProductDto {
 	async create(data: ProductCreate): Promise<Product> {

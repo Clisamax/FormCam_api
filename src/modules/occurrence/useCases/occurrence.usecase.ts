@@ -1,6 +1,6 @@
-import { prisma } from '../../../shared/lib/client';
-import { CreateOccurrence, Occurrence } from '../dtos/occurrence.dto';
-import { OccurrenceRepository } from '../repositories/occurrence.repository';
+import { prisma } from '../../../shared/lib/client.js';
+import { CreateOccurrence, Occurrence } from '../dtos/occurrence.dto.js';
+import { OccurrenceRepository } from '../repositories/occurrence.repository.js';
 
 class OccurrenceUseCase {
 	private occurrenceRepository: OccurrenceRepository;

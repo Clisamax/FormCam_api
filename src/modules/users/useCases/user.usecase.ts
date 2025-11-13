@@ -1,6 +1,6 @@
-import { hashPassword, verifyPassword } from '../../../shared/utils/hash';
-import { User, UserCreate, UserDto, UserUpdate } from '../dtos/user.dto';
-import UsersRepository from '../repositories/user.repository';
+import { hashPassword, verifyPassword } from '../../../shared/utils/hash.js';
+import { User, UserCreate, UserDto, UserUpdate } from '../dtos/user.dto.js';
+import UsersRepository from '../repositories/user.repository.js';
 
 class UserUserCase {
 	private UserDto: UserDto;
