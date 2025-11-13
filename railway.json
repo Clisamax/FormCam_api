@@ -4,7 +4,7 @@
 		"builder": "NIXPACKS"
 	},
 	"deploy": {
-		"startCommand": "/nix/nix-entrypoint.sh yarn start",
+		"startCommand": " yarn start",
 		"healthcheckPath": "/health",
 		"healthcheckTimeout": 300,
 		"restartPolicyType": "ON_FAILURE",
