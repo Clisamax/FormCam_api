@@ -1,8 +1,7 @@
+[variables]
+NODE_VERSION = "24"
 [phases.setup]
-# Força o Nixpacks/Railpack a usar uma versão específica
-# (um commit) do repositório de pacotes Nixpkgs.
 nixpkgsArchive = '347b85090f7a63445e99d799f925be045842828b'
 
 [variables]
-# Garante que, dentro desse ambiente, a versão 24 seja utilizada.
 NODE_VERSION = "24"
