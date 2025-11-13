@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { createUser } from "../controllers/users/createUser.controller";
-import { deleteUser } from "../controllers/users/deleteUser.controller";
-import { loginUser } from "../controllers/users/loginUser.controller";
-import { updateUser } from "../controllers/users/updateUser.controller";
+import { createUser } from "../controllers/users/createUser.controller.js";
+import { deleteUser } from "../controllers/users/deleteUser.controller.js";
+import { loginUser } from "../controllers/users/loginUser.controller.js";
+import { updateUser } from "../controllers/users/updateUser.controller.js";
 
 export const routesUsers = async (fast: FastifyInstance) => {
 	// Rotas de autenticação (sem prefixo adicional)
