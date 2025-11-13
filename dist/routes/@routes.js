@@ -1,5 +1,4 @@
-// src/routes/@routes.ts - VERSÃO CORRIGIDA
-import { FastifyInstance } from 'fastify';
+import { fast } from '../server.js';
 import { createUser } from '../controllers/users/createUser.controller.js';
 import { deleteUser } from '../controllers/users/deleteUser.controller.js';
 import { loginUser } from '../controllers/users/loginUser.controller.js';
