@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify"
-import { routesOccurrences } from "./routesOccurrence.js"
+import { routesOccurrences } from "./routes_occurrence.js"
 import { routesProducts } from "./routes_product.js"
 import { routesUsers } from "./routes_users.js"
 

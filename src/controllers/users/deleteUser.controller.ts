@@ -5,7 +5,9 @@ import { userSchemas } from '../../shared/schemas/index.js';
 
 export async function deleteUser(fast: FastifyInstance) {
 	fast.delete<{ Params: { id: string } }>("/delete_user/:id", {
-		schema: userSchemas.deleteUser,
+		schema: {
+			params: userSchemas.deleteUser
+		},
 		preHandler: verifyJwt
 	}, async (req, reply) => {
 		try {

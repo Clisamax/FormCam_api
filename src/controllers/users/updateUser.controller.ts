@@ -6,7 +6,9 @@ import { userSchemas } from "../../shared/schemas/index.js";
 
 export async function updateUser(fast: FastifyInstance) {
 	fast.put<{ Params: { id: string }, Body: UserUpdate }>("/update_user/:id", {
-		schema: userSchemas.updateUser,
+		schema: {
+			body: userSchemas.updateUser
+		},
 		preHandler: verifyJwt
 	}, async (req, reply) => {
 		try {

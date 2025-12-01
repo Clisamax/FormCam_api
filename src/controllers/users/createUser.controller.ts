@@ -5,7 +5,9 @@ import { userSchemas } from "../../shared/schemas/index.js"
 
 export const createUser = async (fast: FastifyInstance) => {
 	fast.post<{ Body: UserCreate }>("/create_user", {
-		schema: userSchemas.createUser
+		schema: {
+			body: userSchemas.createUser
+		}
 	}, async (req, reply) => {
 		try {
 			const { name, sap, password } = req.body
