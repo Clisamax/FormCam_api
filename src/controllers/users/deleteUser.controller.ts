@@ -1,24 +1,18 @@
 import { FastifyInstance } from 'fastify';
+import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { UserUserCase } from '../../modules/users/useCases/user.usecase.js';
 import { verifyJwt } from '../../shared/middlewares/auth.js';
-import { userSchemas } from '../../shared/schemas/index.js';
+import { deleteUserSchema } from '../../shared/schemas/user.zod.js';
 
 export async function deleteUser(fast: FastifyInstance) {
-	fast.delete<{ Params: { id: string } }>("/delete_user/:id", {
+	fast.withTypeProvider<ZodTypeProvider>().delete("/delete_user/:id", {
 		schema: {
-			params: userSchemas.deleteUser
+			params: deleteUserSchema
 		},
 		preHandler: verifyJwt
 	}, async (req, reply) => {
 		try {
 			const { id } = req.params
-
-			if (!id) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'ID do usuário é obrigatório'
-				})
-			}
 
 			const userUserCase = new UserUserCase()
 

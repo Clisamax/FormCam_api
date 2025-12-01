@@ -4,7 +4,8 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { config } from 'dotenv';
 import 'dotenv/config';
-import fastify, { FastifyInstance } from 'fastify';
+import fastify from 'fastify';
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-type-provider-zod';
 import { Routes } from './routes/@routes.js';
 import { errorHandler } from './shared/hooks/errorHandler.js';
 import { prisma } from './shared/lib/client.js';
@@ -12,7 +13,7 @@ import { prisma } from './shared/lib/client.js';
 
 config();
 
-export const fast: FastifyInstance = fastify({
+export const fast = fastify({
 	logger: {
 		level: process.env.NODE_ENV === 'development' ? 'info' : 'warn',
 		transport: process.env.NODE_ENV === 'development' ? {
@@ -22,7 +23,10 @@ export const fast: FastifyInstance = fastify({
 			}
 		} : undefined
 	}
-});
+}).withTypeProvider<ZodTypeProvider>();
+
+fast.setValidatorCompiler(validatorCompiler);
+fast.setSerializerCompiler(serializerCompiler);
 
 // Registrar error handler global
 fast.setErrorHandler(errorHandler);
@@ -72,7 +76,8 @@ fast.register(fastifySwagger, {
 			{ name: 'Products', description: 'Gerenciamento de produtos' },
 			{ name: 'Health', description: 'Health check da API' }
 		]
-	}
+	},
+	transform: jsonSchemaTransform,
 });
 
 // Registrar Swagger UI

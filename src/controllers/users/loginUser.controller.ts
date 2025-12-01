@@ -1,20 +1,14 @@
 import { FastifyInstance } from "fastify";
-import { login } from "../../modules/users/dtos/user.dto.js";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
+import { loginUserSchema } from "../../shared/schemas/user.zod.js";
 
 export async function loginUser(fast: FastifyInstance) {
-	fast.post<{ Body: login }>("/login", {
+	fast.withTypeProvider<ZodTypeProvider>().post("/login", {
 		schema: {
 			description: 'Login de usuário',
 			tags: ['Authentication'],
-			body: {
-				type: 'object',
-				required: ['sap', 'password'],
-				properties: {
-					sap: { type: 'string', minLength: 1 },
-					password: { type: 'string', minLength: 1 }
-				}
-			},
+			body: loginUserSchema,
 			response: {
 				200: {
 					type: 'object',
@@ -43,6 +37,13 @@ export async function loginUser(fast: FastifyInstance) {
 						error: { type: 'string' },
 						message: { type: 'string' }
 					}
+				},
+				500: {
+					type: 'object',
+					properties: {
+						error: { type: 'string' },
+						message: { type: 'string' }
+					}
 				}
 			}
 		}
@@ -51,24 +52,7 @@ export async function loginUser(fast: FastifyInstance) {
 			const userUseCase = new UserUserCase()
 			const { sap, password } = req.body;
 
-			// Validate presence of SAP and password
-			if (!sap || !password) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'SAP e senha são obrigatórios'
-				});
-			}
-
-			// Trim whitespace
-			const trimmedSap = sap.trim();
-			if (!trimmedSap) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'SAP não pode estar vazio'
-				});
-			}
-
-			const user = await userUseCase.login(trimmedSap, password);
+			const user = await userUseCase.login(sap, password);
 
 			// Check if user exists
 			if (!user) {

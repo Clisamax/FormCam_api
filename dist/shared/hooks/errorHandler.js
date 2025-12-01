@@ -1,4 +1,4 @@
-import { AppError, formatErrorResponse, handlePrismaError, logError } from '../errors';
+import { AppError, formatErrorResponse, handlePrismaError, logError } from '../errors/index.js';
 export async function errorHandler(error, request, reply) {
     // Log do erro
     logError(error, `Route: ${request.method} ${request.url}`);

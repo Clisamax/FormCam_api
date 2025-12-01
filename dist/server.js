@@ -5,9 +5,10 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import { config } from 'dotenv';
 import 'dotenv/config';
 import fastify from 'fastify';
-import { Routes } from 'ç';
-import { errorHandler } from './shared/hooks/errorHandler';
-import { prisma } from './shared/lib/client';
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { Routes } from './routes/@routes.js';
+import { errorHandler } from './shared/hooks/errorHandler.js';
+import { prisma } from './shared/lib/client.js';
 config();
 export const fast = fastify({
     logger: {
@@ -19,7 +20,9 @@ export const fast = fastify({
             }
         } : undefined
     }
-});
+}).withTypeProvider();
+fast.setValidatorCompiler(validatorCompiler);
+fast.setSerializerCompiler(serializerCompiler);
 // Registrar error handler global
 fast.setErrorHandler(errorHandler);
 const PORT = process.env.PORT || 3339;
@@ -65,7 +68,8 @@ fast.register(fastifySwagger, {
             { name: 'Products', description: 'Gerenciamento de produtos' },
             { name: 'Health', description: 'Health check da API' }
         ]
-    }
+    },
+    transform: jsonSchemaTransform,
 });
 // Registrar Swagger UI
 fast.register(fastifySwaggerUi, {

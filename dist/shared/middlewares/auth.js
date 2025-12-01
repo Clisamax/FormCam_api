@@ -13,7 +13,7 @@ export async function verifyJwt(request, reply) {
     }
     catch (error) {
         // Log do erro para debugging
-        request.log.error('JWT verification failed:', error);
+        request.log.error(error, 'JWT verification failed');
         // Diferentes tipos de erro JWT
         if (error instanceof Error) {
             if (error.message.includes('expired')) {

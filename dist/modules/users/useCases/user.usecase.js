@@ -1,5 +1,5 @@
-import { hashPassword, verifyPassword } from '../../../shared/utils/hash';
-import UsersRepository from '../repositories/user.repository';
+import { hashPassword, verifyPassword } from '../../../shared/utils/hash.js';
+import UsersRepository from '../repositories/user.repository.js';
 class UserUserCase {
     UserDto;
     constructor() {

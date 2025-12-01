@@ -6,43 +6,10 @@ const createProductHandler: RouteHandlerMethod = async (req, reply: FastifyReply
 	try {
 		const productBody = req.body as Omit<ProductCreate, "userSap">;
 		const userSap = req.authenticatedUser?.sap;
-
-		// TODO: Remover validações manuais após a implementação completa do schema
-
-		// Verificação padrão de autenticação
-		if (!userSap?.trim()) {
+		if (!userSap) {
 			return reply.status(401).send({
 				error: "Unauthorized",
 				message: "Usuário não autenticado"
-			});
-		}
-
-		// Validações manuais adicionais (caso queira manter)
-		if (!productBody.uuid?.trim()) {
-			return reply.status(400).send({
-				error: "Validation Error",
-				message: "UUID da ocorrência é obrigatório"
-			});
-		}
-
-		if (!productBody.name?.trim()) {
-			return reply.status(400).send({
-				error: "Validation Error",
-				message: "Nome do produto é obrigatório"
-			});
-		}
-
-		if (!productBody.product?.trim()) {
-			return reply.status(400).send({
-				error: "Validation Error",
-				message: "Tipo do produto é obrigatório"
-			});
-		}
-
-		if (typeof productBody.quantity !== "number" || productBody.quantity <= 0) {
-			return reply.status(400).send({
-				error: "Validation Error",
-				message: "Quantidade deve ser maior que zero"
 			});
 		}
 

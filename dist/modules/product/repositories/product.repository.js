@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { prisma } from "../../../shared/lib/client";
+import { prisma } from "../../../shared/lib/client.js";
 export class ProductRepository {
     async create(data) {
         try {

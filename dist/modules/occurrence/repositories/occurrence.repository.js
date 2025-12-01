@@ -1,4 +1,4 @@
-import { prisma } from "../../../shared/lib/client";
+import { prisma } from "../../../shared/lib/client.js";
 export class OccurrenceRepository {
     async create(data) {
         const result = await prisma.occurrence.create({

@@ -1,19 +1,15 @@
-import { UserUserCase } from '../../modules/users/useCases/user.usecase';
-import { verifyJwt } from '../../shared/middlewares/auth';
-import { userSchemas } from '../../shared/schemas';
+import { UserUserCase } from '../../modules/users/useCases/user.usecase.js';
+import { verifyJwt } from '../../shared/middlewares/auth.js';
+import { deleteUserSchema } from '../../shared/schemas/user.zod.js';
 export async function deleteUser(fast) {
-    fast.delete("/delete_user/:id", {
-        schema: userSchemas.deleteUser,
+    fast.withTypeProvider().delete("/delete_user/:id", {
+        schema: {
+            params: deleteUserSchema
+        },
         preHandler: verifyJwt
     }, async (req, reply) => {
         try {
             const { id } = req.params;
-            if (!id) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'ID do usuário é obrigatório'
-                });
-            }
             const userUserCase = new UserUserCase();
             try {
                 const deletedUser = await userUserCase.delete(id);
@@ -34,7 +30,7 @@ export async function deleteUser(fast) {
                 });
             }
             catch (error) {
-                req.log.error('Delete user error:', error);
+                req.log.error(error, 'Delete user error');
                 if (error instanceof Error) {
                     if (error.message === 'User not found') {
                         return reply.status(404).send({
@@ -50,7 +46,7 @@ export async function deleteUser(fast) {
             }
         }
         catch (error) {
-            req.log.error('Delete user error:', error);
+            req.log.error(error, 'Delete user error');
             return reply.status(500).send({
                 error: 'Internal Server Error',
                 message: 'Erro interno do servidor'

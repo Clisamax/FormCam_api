@@ -1,46 +1,20 @@
-import { UserUserCase } from "../../modules/users/useCases/user.usecase";
-import { verifyJwt } from "../../shared/middlewares/auth";
-import { userSchemas } from "../../shared/schemas";
+import { z } from "zod";
+import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
+import { verifyJwt } from "../../shared/middlewares/auth.js";
+import { updateUserSchema } from "../../shared/schemas/user.zod.js";
 export async function updateUser(fast) {
-    fast.put("/update_user/:id", {
-        schema: userSchemas.updateUser,
+    fast.withTypeProvider().put("/update_user/:id", {
+        schema: {
+            params: z.object({
+                id: z.string().uuid('ID inválido')
+            }),
+            body: updateUserSchema
+        },
         preHandler: verifyJwt
     }, async (req, reply) => {
         try {
             const { id } = req.params;
             const updateData = req.body;
-            // Basic validations
-            if (!id) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'ID é obrigatório'
-                });
-            }
-            if (Object.keys(updateData).length === 0) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'Nenhum dado para atualizar'
-                });
-            }
-            // Validações específicas
-            if (updateData.sap && !/^[0-9]+$/.test(updateData.sap.trim())) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'SAP deve conter apenas números'
-                });
-            }
-            if (updateData.name && updateData.name.trim().length < 2) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'Nome deve ter pelo menos 2 caracteres'
-                });
-            }
-            if (updateData.password && updateData.password.trim().length < 6) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'Senha deve ter pelo menos 6 caracteres'
-                });
-            }
             const userUseCase = new UserUserCase();
             const updatedUser = await userUseCase.update(id, updateData);
             if (!updatedUser) {
@@ -62,7 +36,7 @@ export async function updateUser(fast) {
             });
         }
         catch (error) {
-            req.log.error('Update user error:', error);
+            req.log.error(error, 'Update user error');
             if (error instanceof Error) {
                 if (error.message === 'User not found') {
                     return reply.status(404).send({

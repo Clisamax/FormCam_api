@@ -1,46 +1,16 @@
 import { FastifyInstance } from "fastify"
-import { UserCreate } from "../../modules/users/dtos/user.dto.js"
+import { ZodTypeProvider } from "fastify-type-provider-zod"
 import { UserUserCase } from "../../modules/users/useCases/user.usecase.js"
-import { userSchemas } from "../../shared/schemas/index.js"
+import { createUserSchema } from "../../shared/schemas/user.zod.js"
 
 export const createUser = async (fast: FastifyInstance) => {
-	fast.post<{ Body: UserCreate }>("/create_user", {
+	fast.withTypeProvider<ZodTypeProvider>().post("/create_user", {
 		schema: {
-			body: userSchemas.createUser
+			body: createUserSchema
 		}
 	}, async (req, reply) => {
 		try {
 			const { name, sap, password } = req.body
-
-			// Validações adicionais
-			if (!name?.trim()) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'Nome é obrigatório'
-				})
-			}
-
-			if (!sap?.trim()) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'SAP é obrigatório'
-				})
-			}
-
-			if (!password?.trim()) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'Senha é obrigatória'
-				})
-			}
-
-			// Validar formato do SAP (apenas números)
-			if (!/^[0-9]+$/.test(sap.trim())) {
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'SAP deve conter apenas números'
-				})
-			}
 
 			const userUserCase = new UserUserCase()
 			const user = await userUserCase.createUser({

@@ -7,7 +7,7 @@ const createOccurrenceHandler: RouteHandlerMethod = async (req, reply: FastifyRe
 		const occurrenceBody = req.body as Omit<CreateOccurrence, 'userSap'>;
 		const userSap = req.authenticatedUser?.sap;
 
-		if (!userSap?.trim()) {
+		if (!userSap) {
 			return reply.status(401).send({
 				error: 'Unauthorized',
 				message: 'Usuário não autenticado'
@@ -15,41 +15,6 @@ const createOccurrenceHandler: RouteHandlerMethod = async (req, reply: FastifyRe
 		}
 
 		// TODO: Remover validações manuais após a implementação completa do schema
-
-		if (!occurrenceBody.origin?.trim()) {
-			return reply.status(400).send({
-				error: 'Validation Error',
-				message: 'Origem é obrigatória'
-			});
-		}
-
-		if (!occurrenceBody.process?.trim()) {
-			return reply.status(400).send({
-				error: 'Validation Error',
-				message: 'Processo é obrigatório'
-			});
-		}
-
-		if (!occurrenceBody.procedure?.trim()) {
-			return reply.status(400).send({
-				error: 'Validation Error',
-				message: 'Procedimento é obrigatório'
-			});
-		}
-
-		if (!occurrenceBody.responsible?.trim()) {
-			return reply.status(400).send({
-				error: 'Validation Error',
-				message: 'Responsável é obrigatório'
-			});
-		}
-
-		if (!occurrenceBody.description?.trim()) {
-			return reply.status(400).send({
-				error: 'Validation Error',
-				message: 'Descrição é obrigatória'
-			});
-		}
 
 		const occurrenceUseCase = new OccurrenceUseCase();
 		const result = await occurrenceUseCase.createOccurrence({

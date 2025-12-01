@@ -1,37 +1,13 @@
-import { UserUserCase } from "../../modules/users/useCases/user.usecase";
-import { userSchemas } from "../../shared/schemas";
+import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
+import { createUserSchema } from "../../shared/schemas/user.zod.js";
 export const createUser = async (fast) => {
-    fast.post("/create_user", {
-        schema: userSchemas.createUser
+    fast.withTypeProvider().post("/create_user", {
+        schema: {
+            body: createUserSchema
+        }
     }, async (req, reply) => {
         try {
             const { name, sap, password } = req.body;
-            // Validações adicionais
-            if (!name?.trim()) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'Nome é obrigatório'
-                });
-            }
-            if (!sap?.trim()) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'SAP é obrigatório'
-                });
-            }
-            if (!password?.trim()) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'Senha é obrigatória'
-                });
-            }
-            // Validar formato do SAP (apenas números)
-            if (!/^[0-9]+$/.test(sap.trim())) {
-                return reply.status(400).send({
-                    error: 'Validation Error',
-                    message: 'SAP deve conter apenas números'
-                });
-            }
             const userUserCase = new UserUserCase();
             const user = await userUserCase.createUser({
                 name: name.trim(),
@@ -49,7 +25,7 @@ export const createUser = async (fast) => {
             });
         }
         catch (error) {
-            req.log.error('Create user error:', error);
+            req.log.error(error, 'Create user error');
             if (error instanceof Error) {
                 if (error.message === 'This user already exists') {
                     return reply.status(409).send({

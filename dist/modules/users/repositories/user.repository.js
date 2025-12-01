@@ -1,4 +1,4 @@
-import { prisma } from "../../../shared/lib/client";
+import { prisma } from "../../../shared/lib/client.js";
 class UsersRepository {
     async create(data) {
         const user = await prisma.user.create({

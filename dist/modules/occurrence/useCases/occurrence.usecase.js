@@ -1,5 +1,5 @@
-import { prisma } from '../../../shared/lib/client';
-import { OccurrenceRepository } from '../repositories/occurrence.repository';
+import { prisma } from '../../../shared/lib/client.js';
+import { OccurrenceRepository } from '../repositories/occurrence.repository.js';
 class OccurrenceUseCase {
     occurrenceRepository;
     constructor() {
