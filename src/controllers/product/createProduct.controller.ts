@@ -1,121 +1,104 @@
-import { FastifyInstance } from "fastify";
-import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto.js";
-import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase.js";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { ProductCreate } from "../../modules/product/dto/product.dto.js";
 import ProductUseCase from "../../modules/product/useCases/product.usecase.js";
 import { verifyJwt } from "../../shared/middlewares/auth.js";
 import { productSchemas } from "../../shared/schemas/index.js";
 
-import { v4 as uuidv4 } from "uuid";
 
-export const createProduct = async (fast: FastifyInstance) => {
-	fast.post<{ Body: ProductCreate }>("/", {
+// Remove o userSap do DTO recebido no corpo
+type CreateProductBody = Omit<ProductCreate, "userSap">;
+
+const CreateProductController = async (fast: FastifyInstance) => {
+	fast.post<{ Body: CreateProductBody }>("/", {
 		schema: productSchemas.createProduct,
 		preHandler: verifyJwt
-	}, async (req, reply) => {
+	}, async (
+		req: FastifyRequest<{ Body: CreateProductBody }>,
+		reply: FastifyReply
+	) => {
 		try {
-			const productData = req.body;
+			const productBody = req.body;
+			const userSap = req.authenticatedUser?.sap;
 
-			// Gera um novo uuid para vincular ambos
-			const uuid = uuidv4();
-
-			// Validações adicionais
-			if (!productData.name?.trim()) {
-				req.log.error("Nome do produto é obrigatório");
-				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'Nome do produto é obrigatório'
+			// Verificação padrão de autenticação
+			if (!userSap?.trim()) {
+				return reply.status(401).send({
+					error: "Unauthorized",
+					message: "Usuário não autenticado"
 				});
 			}
 
-			if (!productData.product?.trim()) {
-				req.log.error("Tipo do produto é obrigatório");
+			// Validações manuais adicionais (caso queira manter)
+			if (!productBody.uuid?.trim()) {
 				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'Tipo do produto é obrigatório'
+					error: "Validation Error",
+					message: "UUID da ocorrência é obrigatório"
 				});
 			}
 
-			// uuid do body não é necessário; será gerado automaticamente e usado para ambas as criações
-
-			if (typeof productData.quantity !== "number" || productData.quantity <= 0) {
-				req.log.error("Quantidade deve ser maior que zero");
+			if (!productBody.name?.trim()) {
 				return reply.status(400).send({
-					error: 'Validation Error',
-					message: 'Quantidade deve ser maior que zero'
+					error: "Validation Error",
+					message: "Nome do produto é obrigatório"
+				});
+			}
+
+			if (!productBody.product?.trim()) {
+				return reply.status(400).send({
+					error: "Validation Error",
+					message: "Tipo do produto é obrigatório"
+				});
+			}
+
+			if (typeof productBody.quantity !== "number" || productBody.quantity <= 0) {
+				return reply.status(400).send({
+					error: "Validation Error",
+					message: "Quantidade deve ser maior que zero"
 				});
 			}
 
 			const productUseCase = new ProductUseCase();
-			const product = await productUseCase.createProduct({
-				...productData,
-				uuid
+
+			const createdProduct = await productUseCase.createProduct({
+				...productBody,
+				userSap,
 			});
 
-			// Cria a ocorrência vinculada ao mesmo uuid
-			const occurrenceUseCase = new OccurrenceUseCase();
-			const occurrenceData: CreateOccurrence = {
-				uuid,
-				origin: "",
-				process: "",
-				procedure: "",
-				responsible: productData.nameOfResponsible || "",
-				description: "",
-				note: "",
-				userSap: req.authenticatedUser?.sap || ""
-			};
-			const occurrence = await occurrenceUseCase.createOccurrence(occurrenceData);
-
-			if (!product) {
-				req.log.error("Falha ao criar produto: retorno nulo ou indefinido do use case");
-				return reply.status(500).send({
-					error: 'Internal Server Error',
-					message: "Falha ao criar produto"
-				});
-			}
-
-			req.log.info(`Product ${product.name} created successfully`);
+			req.log.info(`Product created successfully for occurrence ${productBody.uuid}`);
 
 			return reply.status(201).send({
-				message: "Produto e ocorrência criados com sucesso",
+				message: "Produto registrado com sucesso",
 				product: {
-					id: product.id,
-					uuid: product.uuid,
-					name: product.name,
-					product: product.product,
-					quantity: product.quantity,
-					unit: product.unit,
-					nameOfResponsible: product.nameOfResponsible,
-					occurrenceDate: product.occurrenceDate,
-					createdAt: product.createdAt
-				},
-				occurrence: {
-					id: occurrence.id,
-					uuid: occurrence.uuid,
-					origin: occurrence.origin,
-					process: occurrence.process,
-					procedure: occurrence.procedure,
-					responsible: occurrence.responsible,
-					description: occurrence.description,
-					note: occurrence.note,
-					createdAt: occurrence.createdAt
+					id: createdProduct.id,
+					name: createdProduct.name,
+					product: createdProduct.product,
+					quantity: createdProduct.quantity,
+					unit: createdProduct.unit,
+					uuid: createdProduct.uuid,
+					nameOfResponsible: createdProduct.nameOfResponsible,
+					occurrenceDate: createdProduct.occurrenceDate,
+					createdAt: createdProduct.createdAt,
+					updatedAt: createdProduct.updatedAt,
+					
 				}
 			});
 
 		} catch (error) {
-			req.log.error(error, 'Create product error');
+			req.log.error(error, "Create product error");
 
 			if (error instanceof Error) {
 				return reply.status(400).send({
-					error: 'Validation Error',
+					error: "Validation Error",
 					message: error.message
 				});
 			}
 
 			return reply.status(500).send({
-				error: 'Internal Server Error',
+				error: "Internal Server Error",
 				message: "Erro interno do servidor"
 			});
 		}
 	});
-}
+};
+
+export default CreateProductController;
