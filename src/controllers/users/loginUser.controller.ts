@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { z } from "zod";
 import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
 import { loginUserSchema } from "../../shared/schemas/user.zod.js";
 
@@ -10,41 +11,26 @@ export async function loginUser(fast: FastifyInstance) {
 			tags: ['Authentication'],
 			body: loginUserSchema,
 			response: {
-				200: {
-					type: 'object',
-					properties: {
-						token: { type: 'string' },
-						user: {
-							type: 'object',
-							properties: {
-								id: { type: 'string' },
-								name: { type: 'string' },
-								sap: { type: 'string' }
-							}
-						}
-					}
-				},
-				400: {
-					type: 'object',
-					properties: {
-						error: { type: 'string' },
-						message: { type: 'string' }
-					}
-				},
-				401: {
-					type: 'object',
-					properties: {
-						error: { type: 'string' },
-						message: { type: 'string' }
-					}
-				},
-				500: {
-					type: 'object',
-					properties: {
-						error: { type: 'string' },
-						message: { type: 'string' }
-					}
-				}
+				200: z.object({
+					token: z.string(),
+					user: z.object({
+						id: z.string(),
+						name: z.string(),
+						sap: z.string()
+					})
+				}),
+				400: z.object({
+					error: z.string(),
+					message: z.string()
+				}),
+				401: z.object({
+					error: z.string(),
+					message: z.string()
+				}),
+				500: z.object({
+					error: z.string(),
+					message: z.string()
+				})
 			}
 		}
 	}, async (req, reply) => {
