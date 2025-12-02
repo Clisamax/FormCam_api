@@ -12,7 +12,6 @@ export interface Occurrence {
 
 }
 export interface CreateOccurrence {
-	uuid: string
 	origin: string
 	process: string
 	procedure: string
