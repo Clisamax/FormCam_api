@@ -1,8 +1,6 @@
-import { hash, compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 
-const {hash: _, compare: __, ...bcrypt} = await import("bcrypt")
-
-export async function hashPassword(password: string): Promise<string>{
+export async function hashPassword(password: string): Promise<string> {
 	return hash(password, 10)
 }
 

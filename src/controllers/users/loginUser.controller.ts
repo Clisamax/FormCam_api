@@ -49,6 +49,16 @@ export async function loginUser(fast: FastifyInstance) {
 		}
 	}, async (req, reply) => {
 		try {
+			req.log.info({ body: req.body }, 'Login request received');
+
+			if (!req.body) {
+				req.log.error('Request body is missing');
+				return reply.status(400).send({
+					error: 'Bad Request',
+					message: 'Corpo da requisição é obrigatório'
+				});
+			}
+
 			const userUseCase = new UserUserCase()
 			const { sap, password } = req.body;
 
@@ -56,6 +66,7 @@ export async function loginUser(fast: FastifyInstance) {
 
 			// Check if user exists
 			if (!user) {
+				req.log.warn({ sap }, 'Login failed: User not found or invalid credentials');
 				return reply.status(401).send({
 					error: 'Authentication Failed',
 					message: 'Credenciais inválidas'
@@ -86,7 +97,7 @@ export async function loginUser(fast: FastifyInstance) {
 				}
 			});
 		} catch (error) {
-			req.log.error(error, 'Login error');
+			req.log.error(error, 'Login error details');
 
 			if (error instanceof Error) {
 				if (error.message === 'User not found') {
