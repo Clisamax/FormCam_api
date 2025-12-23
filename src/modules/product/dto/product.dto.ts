@@ -1,6 +1,5 @@
 export interface Product {
 	id: string;
-	name: string;
 	uuid: string;
 	product: string;
 	quantity: number;
@@ -14,7 +13,6 @@ export interface Product {
 
 export type ProductCreate = {
 	uuid: string;              // FK da Occurrence
-	name: string;
 	product: string;
 	quantity: number;
 	unit: string;

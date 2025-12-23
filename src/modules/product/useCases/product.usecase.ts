@@ -17,7 +17,6 @@ export default class ProductUseCase {
 		const product = await prisma.product.create({
 			data: {
 				uuid: data.uuid,
-				name: data.name,
 				product: data.product,
 				quantity: data.quantity,
 				unit: data.unit,

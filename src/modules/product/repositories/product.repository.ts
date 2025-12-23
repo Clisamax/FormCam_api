@@ -14,7 +14,6 @@ export class ProductRepository implements ProductDto {
 			const result = await prisma.product.create({
 				data: {
 					id: uuidv4(),
-					name: data.name,
 					product: data.product,
 					quantity: data.quantity,
 					unit: data.unit,
