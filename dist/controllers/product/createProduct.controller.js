@@ -19,7 +19,6 @@ const createProductHandler = async (req, reply) => {
             message: "Produto registrado com sucesso",
             product: {
                 id: createdProduct.id,
-                name: createdProduct.name,
                 product: createdProduct.product,
                 quantity: createdProduct.quantity,
                 unit: createdProduct.unit,

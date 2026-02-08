@@ -13,7 +13,13 @@ class OccurrenceUseCase {
             if (!userExists) {
                 throw new Error(`Usuário com SAP ${data.userSap} não encontrado.`);
             }
-            const occurrence = await this.occurrenceRepository.create(data);
+            // Generate UUID server-side
+            const { v4: uuidv4 } = await import('uuid');
+            const uuid = uuidv4();
+            const occurrence = await this.occurrenceRepository.create({
+                ...data,
+                uuid
+            });
             return occurrence;
         }
         catch (error) {

@@ -1,5 +1,4 @@
-import { hash, compare } from "bcrypt";
-const { hash: _, compare: __, ...bcrypt } = await import("bcrypt");
+import { compare, hash } from "bcrypt";
 export async function hashPassword(password) {
     return hash(password, 10);
 }

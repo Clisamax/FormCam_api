@@ -1,9 +1,16 @@
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from "@prisma/client";
+import pg from 'pg';
+const { Pool } = pg;
 // Singleton para Prisma Client
 let prismaInstance = null;
 export function getPrismaInstance() {
     if (!prismaInstance) {
+        const connectionString = `${process.env.DATABASE_URL}`;
+        const pool = new Pool({ connectionString });
+        const adapter = new PrismaPg(pool);
         prismaInstance = new PrismaClient({
+            adapter,
             log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
             errorFormat: 'pretty',
         });

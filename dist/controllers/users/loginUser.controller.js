@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { UserUserCase } from "../../modules/users/useCases/user.usecase.js";
 import { loginUserSchema } from "../../shared/schemas/user.zod.js";
 export async function loginUser(fast) {
@@ -7,50 +8,44 @@ export async function loginUser(fast) {
             tags: ['Authentication'],
             body: loginUserSchema,
             response: {
-                200: {
-                    type: 'object',
-                    properties: {
-                        token: { type: 'string' },
-                        user: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                name: { type: 'string' },
-                                sap: { type: 'string' }
-                            }
-                        }
-                    }
-                },
-                400: {
-                    type: 'object',
-                    properties: {
-                        error: { type: 'string' },
-                        message: { type: 'string' }
-                    }
-                },
-                401: {
-                    type: 'object',
-                    properties: {
-                        error: { type: 'string' },
-                        message: { type: 'string' }
-                    }
-                },
-                500: {
-                    type: 'object',
-                    properties: {
-                        error: { type: 'string' },
-                        message: { type: 'string' }
-                    }
-                }
+                200: z.object({
+                    token: z.string(),
+                    user: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                        sap: z.string()
+                    })
+                }),
+                400: z.object({
+                    error: z.string(),
+                    message: z.string()
+                }),
+                401: z.object({
+                    error: z.string(),
+                    message: z.string()
+                }),
+                500: z.object({
+                    error: z.string(),
+                    message: z.string()
+                })
             }
         }
     }, async (req, reply) => {
         try {
+            req.log.info({ body: req.body }, 'Login request received');
+            if (!req.body) {
+                req.log.error('Request body is missing');
+                return reply.status(400).send({
+                    error: 'Bad Request',
+                    message: 'Corpo da requisição é obrigatório'
+                });
+            }
             const userUseCase = new UserUserCase();
             const { sap, password } = req.body;
             const user = await userUseCase.login(sap, password);
             // Check if user exists
             if (!user) {
+                req.log.warn({ sap }, 'Login failed: User not found or invalid credentials');
                 return reply.status(401).send({
                     error: 'Authentication Failed',
                     message: 'Credenciais inválidas'
@@ -76,7 +71,7 @@ export async function loginUser(fast) {
             });
         }
         catch (error) {
-            req.log.error(error, 'Login error');
+            req.log.error(error, 'Login error details');
             if (error instanceof Error) {
                 if (error.message === 'User not found') {
                     return reply.status(401).send({
