@@ -1,10 +1,11 @@
 import { FastifyReply, RouteHandlerMethod } from "fastify";
 import { ProductCreate } from "../../modules/product/dto/product.dto.js";
 import ProductUseCase from "../../modules/product/useCases/product.usecase.js";
+import { CreateProductInput } from "../../shared/schemas/product.zod.js";
 
 const createProductHandler: RouteHandlerMethod = async (req, reply: FastifyReply) => {
 	try {
-		const productBody = req.body as Omit<ProductCreate, "userSap">;
+		const productBody = req.body as CreateProductInput;
 		const userSap = req.authenticatedUser?.sap;
 		if (!userSap) {
 			return reply.status(401).send({
