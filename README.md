@@ -15,6 +15,41 @@ Backend da aplicação FormCam desenvolvido com Fastify, TypeScript e Prisma.
 
 ## 📋 Pré-requisitos
 
+## 🔄 Padrões de Codificação
+
+### Transformação de snake_case para camelCase
+
+Os schemas Zod para produtos e ocorrências agora suportam automaticamente dados no formato `snake_case` (como enviados pelo frontend) e os convertem para `camelCase` para uso interno na aplicação. Isso garante compatibilidade com o frontend sem necessidade de alterações nele.
+
+Exemplo de payload aceito:
+```json
+{
+  "uuid": "123e4567-e89b-12d3-a456-426614174000",
+  "occurrence_date": "2023-01-01",
+  "product": "Produto Exemplo",
+  "quantity": 10,
+  "name_of_responsible": "João Silva",
+  "unit": "UN"
+}
+```
+
+Internamente, os dados são convertidos para:
+```typescript
+{
+  uuid: "123e4567-e89b-12d3-a456-426614174000",
+  occurrenceDate: "2023-01-01",
+  product: "Produto Exemplo",
+  quantity: 10,
+  nameOfResponsible: "João Silva",
+  unit: "UN"
+}
+```
+
+Esta transformação é feita automaticamente pelos schemas Zod:
+- `src/shared/schemas/product.zod.ts`
+- `src/shared/schemas/occurrence.zod.ts`
+
+
 - Node.js >= 18.0.0
 - Yarn ou npm
 - PostgreSQL

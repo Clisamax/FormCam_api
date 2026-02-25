@@ -1,10 +1,11 @@
 import { FastifyReply, RouteHandlerMethod } from "fastify";
 import { CreateOccurrence } from "../../modules/occurrence/dtos/occurrence.dto.js";
 import OccurrenceUseCase from "../../modules/occurrence/useCases/occurrence.usecase.js";
+import { CreateOccurrenceInput } from "../../shared/schemas/occurrence.zod.js";
 
 const createOccurrenceHandler: RouteHandlerMethod = async (req, reply: FastifyReply) => {
 	try {
-		const occurrenceBody = req.body as Omit<CreateOccurrence, 'userSap'>;
+		const occurrenceBody = req.body as CreateOccurrenceInput;
 		const userSap = req.authenticatedUser?.sap;
 
 		if (!userSap) {

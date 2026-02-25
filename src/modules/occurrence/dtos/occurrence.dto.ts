@@ -17,7 +17,7 @@ export interface CreateOccurrence {
 	procedure: string
 	responsible: string
 	description: string
-	note: string
+	note?: string
 	userSap: string
 }
 
