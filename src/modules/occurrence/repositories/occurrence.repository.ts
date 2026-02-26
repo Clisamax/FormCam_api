@@ -11,7 +11,7 @@ export class OccurrenceRepository implements OccurrenceDto {
 				procedure: data.procedure,
 				responsible: data.responsible,
 				description: data.description,
-				note: data.note,
+				note: data.note ?? '',
 				sap: {
 					connect: {
 						sap: data.userSap

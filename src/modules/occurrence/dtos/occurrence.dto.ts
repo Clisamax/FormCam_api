@@ -22,6 +22,6 @@ export interface CreateOccurrence {
 }
 
 export interface OccurrenceDto {
-	create(data: CreateOccurrence): Promise<Occurrence>;
+	create(data: CreateOccurrence & { uuid: string }): Promise<Occurrence>;
 
 }
